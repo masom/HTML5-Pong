@@ -8,6 +8,15 @@ function setPlayerName(playerNum, playerName) {
 	nameBox.innerText = playerName;
 }
 
+function setPlayerReady(playerNum, playerReady) {
+	readyBox = document.getElementById("player" + playerNum + "ready");
+	if (playerReady) {
+		readyBox.innerText = "Ready";
+	} else {
+		readyBox.innerText = "Not Ready";
+	}
+}
+
 function hideConnect() {
 	dialogue = document.getElementById("connect");
 	dialogue.style.display = "none";
@@ -20,4 +29,23 @@ function showLobby() {
 	playerinfo.innerText = "You are " + playerName;
 	
 	dialogue.style.display = "block";
+}
+
+function hideLobby() {
+	dialogue = document.getElementById("lobby");
+	dialogue.style.display = "none";
+}
+
+function enablePaddle(playerNum) {
+	if (playerNum == 1) {
+		document.addEventListener("mousemove", function(e) {
+			p1.setTarget(e.x, e.y - canvas.offsetTop);
+			updatePaddle(e.y - canvas.offsetTop);
+		});
+	} else {
+		document.addEventListener("mousemove", function(e) {
+			p2.setTarget(e.x, e.y - canvas.offsetTop);
+			updatePaddle(e.y - canvas.offsetTop);
+		});
+	}
 }
