@@ -11,7 +11,7 @@ var board = new GameBoard(context);
 var ball = new Ball(
     0.2, 0.5,
     0.05, 0.05,
-    0.005, 0.005
+    -0.005, 0.005
 );
 board.addObject(ball);
 
