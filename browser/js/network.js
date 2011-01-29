@@ -8,10 +8,10 @@ function serverConnect(serverName) {
 	};
 	socket.onmessage = function(msg) {
 		var d = JSON.parse(msg.data);
+		alert("Received message " + d.code);
 		if (d.code == 100) {
-			if (d.data.id > 0) {
-				playerNum = d.data.id;
-			}
+		} else if (d.code == 200) {
+			playerNum = d.data.id;
 		}
 	}
 	socket.onerror = function(err) {
