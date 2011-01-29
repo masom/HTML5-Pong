@@ -7,10 +7,8 @@ Response = function(){
 			data : {}, 
 			version : 1
 	};
-	this.init();
 };
-Response.prototype.init = function(){
-};
+
 Response.prototype.welcome = function(player){
 	this.response.code = 200;
 	this.response.data = player;
@@ -30,6 +28,17 @@ Response.prototype.playerJoined = function(player){
 	this.response.code = 100;
 	this.response.data = player;
 	return this.response;
+};
+Response.prototype.gameStart = function(){
+	this.response.code = 100;
+};
+Response.prototype.paddleMoved = function(player, pos){
+	this.response.code = 900;
+	this.response.data = {player: player, pos: pos};
+	return this.response;
+};
+Response.prototype.ballData = function(data){
+	
 };
 /**
  * Pong Server that uses HTML WebSockets for its main form of
@@ -142,8 +151,8 @@ PongServer.prototype.start = function() {
 /**
  * Broadcast a message to all the available
  */
-PongServer.prototype.broadcast = function(message, command, protocol) {
-  this.server_.broadcast(JSON.stringify({}));
+PongServer.prototype.broadcast = function(response) {
+  this.server_.broadcast(JSON.stringify(response));
 };
 
 PongServer.prototype.send = function(conn, response) {
