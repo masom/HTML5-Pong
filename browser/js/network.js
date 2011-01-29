@@ -9,8 +9,10 @@ function serverConnect(serverName) {
 	};
 	socket.onmessage = function(msg) {
 		var d = JSON.parse(msg.data);
-		alert(d.text + "\n" + msg.data);
-		if (d.code == 200) {
+		//alert(d.text + "\n" + msg.data);
+		if (d.code == 160) {
+			setPlayerReady(d.data.id, d.data.ready);
+		} else if (d.code == 200) {
 			playerNum = d.data.id;
 			playerName = d.data.name;
 			showLobby();

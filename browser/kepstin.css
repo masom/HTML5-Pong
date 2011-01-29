@@ -7,7 +7,7 @@ body {
   background: black;
   color: white;
 }
-#player0score, #player1score {
+#player1score, #player2score {
   border: medium solid;
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -18,12 +18,12 @@ body {
   border-radius: 0.5em;
   text-align: center;
 }
-#player0score {
+#player1score {
   position: absolute;
   top: 0.5em;
   left: 2em;
 }
-#player1score {
+#player2score {
   position: absolute;
   top: 0.4em;
   right: 2em;
@@ -44,14 +44,14 @@ h1 {
   width: 100%;
   height: 60%;
 }
-#player0name {
+#player1name {
   position: absolute;
   top: 2.5em;
   left: 2em;
   font-size: 2em;
   height: 2em;
 }
-#player1name {
+#player2name {
   position: absolute;
   top: 2.5em;
   right: 2em;
@@ -61,8 +61,8 @@ h1 {
 .dialogue {
   position: absolute;
   top: 11em;
-  left: 10%;
-  width: 80%;
+  left: 15%;
+  width: 70%;
   min-width: 40em;
   background: rgba(0,0,0,0.8);
   border: medium solid;
