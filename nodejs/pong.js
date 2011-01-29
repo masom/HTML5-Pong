@@ -151,10 +151,18 @@ PongServer.prototype.startGame = function(){
 		0.05, 0.05,
 		0.005, 0.005
 	);
-	this.ballUpdater = setInterval(this.ball.update, 60);
+	this.ballUpdater = setInterval(this.updateBall, 60);
 	
 	var response = new Response();
 	this.broadcast(response.gameStart());
+};
+PongServer.prototype.stopGame = function(){
+	this.started = false;
+	clearInterval(this.ballUpdater);
+};
+PongServer.prototype.updateBall = function(){
+	this.ball.update();
+	syslog("Ball moving: ["+ this.ball.x + ","+ this.ball.y +"] to [" + this.ball.dx + ","+ this.ball.dy +"]");
 };
 /**
  * Initialize the listeners to handle the various notifications..
@@ -207,6 +215,8 @@ PongServer.prototype.onMessage = function(conn, message) {
 		if(this.started = true){
 			player.data.position = message.data.pos;
 			syslog(this.players_.getFromConn(conn.id));
+			var response = new Response();
+			this.broadcast(response.paddleMoved(player, message.data.pos));
 		}else{
 			syslog("Player: " + player.name + "; Attempting to move paddle when game is not started");
 		}
@@ -228,6 +238,9 @@ PongServer.prototype.onDisconnect = function(conn) {
 	syslog('onDisconnect:' + conn.id);
 	var player = this.players_.getFromConn(conn.id);
 	this.players_.removeByConn(conn.id);
+	
+	this.stopGame();
+	
 	var response = new Response();
 	this.broadcast(response.playerLeft(player));
 };
