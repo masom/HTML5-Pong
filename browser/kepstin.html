@@ -10,12 +10,13 @@
 </head>
 <body>
 <h1><img src="images/HTML5Pong.svg" alt="HTML5 Pong!"></h1>
+<div id="player0score">0</div>
 <div id="player1score">0</div>
-<div id="player2score">0</div>
-<div id="player1name">Player One</div>
-<div id="player2name">Player Two</div>
+<div id="player0name">Player One</div>
+<div id="player1name">Player Two</div>
 <canvas id="playarea"></canvas>
 <script type="text/javascript" src="js/chrome_pong.js"></script>
+
 <div id="connect" class="dialogue">
 <h2>Start Game</h2>
 <form name="connect">
@@ -27,5 +28,22 @@
 <p><input type="submit" name="connect" value="Go!" onclick="serverConnect(document.forms.connect.server.value); return false"></p>
 </form>
 </div>
+
+<div id="lobby" class="dialogue" style="display:none;">
+<h2>Game Lobby</h2>
+<p id="playerinfo">You are Player One</p>
+<table>
+<tr>
+<th>Player One</th><td id="player0ready">Not Ready</td>
+</tr>
+<tr>
+<th>Player Two</th><td id="player1ready">Not Ready</td>
+</tr>
+</table>
+<form name="lobby">
+<p><input type="submit" name="ready" value="I'm Ready!" onclick="serverReady(); return false"></p>
+</form>
+</div>
+
 </body>
 </html>

@@ -13,7 +13,7 @@ Message.prototype.parse = function(message){
 	this.message = JSON.parse(message);
 	this.code = message.code;
 	this.data = message.data;
-}
+};
 
 Message.prototype.isPaddleMove = function(){
 	return (this.code == 150 && data.hasOwnProperty('pos'));
