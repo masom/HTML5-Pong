@@ -1,6 +1,6 @@
 var socket;
-var playerNum = 0;
-var playerName;
+playerNum = 0;
+playerName = "Player";
 
 function serverConnect(serverName) {
 	socket = new WebSocket(serverName);
@@ -9,9 +9,8 @@ function serverConnect(serverName) {
 	};
 	socket.onmessage = function(msg) {
 		var d = JSON.parse(msg.data);
-		alert("Received message " + d.code);
-		if (d.code == 100) {
-		} else if (d.code == 200) {
+		alert(d.text + "\n" + msg.data);
+		if (d.code == 200) {
 			playerNum = d.data.id;
 			playerName = d.data.name;
 			showLobby();
@@ -20,4 +19,15 @@ function serverConnect(serverName) {
 	socket.onerror = function(err) {
 		alert(err);
 	}
+}
+
+function serverReady() {
+	var message = {
+		code : 155,
+		data : {},
+		text : playerName + " is ready",
+		version : 1
+	};
+	alert(JSON.stringify(message));
+	socket.send(JSON.stringify(message));
 }
