@@ -6,6 +6,7 @@
 <script type="text/javascript" src="js/kepstinui.js"></script>
 <script type="text/javascript" src="js/ball.js"></script>
 <script type="text/javascript" src="js/game_board.js"></script>
+<script type="text/javascript" src="js/network.js"></script>
 </head>
 <body>
 <h1><img src="images/HTML5Pong.svg" alt="HTML5 Pong!"></h1>
@@ -15,14 +16,16 @@
 <div id="player2name">Player Two</div>
 <canvas id="playarea"></canvas>
 <script type="text/javascript" src="js/chrome_pong.js"></script>
-<div id="dialogue">
+<div id="connect" class="dialogue">
 <h2>Start Game</h2>
+<form name="connect">
 <table>
 <tr>
 <th>Server</th><td><input type="text" name="server" value="ws://ec2-50-16-163-8.compute-1.amazonaws.com:9001" style="width:25em"></td>
 </tr>
 </table>
-<p><input type="submit" name="connect" value="Go!" onclick="hideDialogue()"></p>
+<p><input type="submit" name="connect" value="Go!" onclick="serverConnect(document.forms.connect.server.value); return false"></p>
+</form>
 </div>
 </body>
 </html>

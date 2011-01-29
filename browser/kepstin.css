@@ -58,7 +58,7 @@ h1 {
   font-size: 2em;
   height: 2em;
 }
-#dialogue {
+.dialogue {
   position: absolute;
   top: 11em;
   left: 10%;
@@ -70,11 +70,11 @@ h1 {
   border-radius: 1em;
   box-sizing: border-box;
 }
-#dialogue h2, #dialogue p {
+.dialogue h2, .dialogue p {
   text-align: center;
   margin: 0;
 }
-#dialogue table {
+.dialogue table {
   margin: 0 auto;
 }
 input[type=text] {
