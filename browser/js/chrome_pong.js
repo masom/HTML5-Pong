@@ -4,7 +4,7 @@ Author: Shawn Simister
 This file constructs the game board and sets up the main event loop.
 */
 
-var canvas = document.getElementById("game_board");
+var canvas = document.getElementById("playarea");
 var context = canvas.getContext("2d");
 
 var board = new GameBoard(context);

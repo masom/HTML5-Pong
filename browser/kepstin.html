@@ -4,22 +4,22 @@
 <title>HTML5 Pong!</title>
 <link rel="stylesheet" type="text/css" href="kepstin.css">
 <script type="text/javascript" src="js/kepstinui.js"></script>
+<script type="text/javascript" src="js/ball.js"></script>
+<script type="text/javascript" src="js/game_board.js"></script>
 </head>
 <body>
 <h1><img src="images/HTML5Pong.svg" alt="HTML5 Pong!"></h1>
 <div id="player1score">0</div>
 <div id="player2score">0</div>
-<div id="player1name">Player 1</div>
-<div id="player2name">Player 2</div>
+<div id="player1name">Player One</div>
+<div id="player2name">Player Two</div>
 <canvas id="playarea"></canvas>
+<script type="text/javascript" src="js/chrome_pong.js"></script>
 <div id="dialogue">
 <h2>Start Game</h2>
 <table>
 <tr>
-<th>Server</th><td><input type="text" name="server" value="localhost"></td>
-</tr>
-<tr>
-<th>Name</th><td><input type="text" name="name" value="Player"></td>
+<th>Server</th><td><input type="text" name="server" value="ws://ec2-50-16-163-8.compute-1.amazonaws.com:9001" style="width:25em"></td>
 </tr>
 </table>
 <p><input type="submit" name="connect" value="Go!" onclick="hideDialogue()"></p>

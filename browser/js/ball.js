@@ -12,7 +12,7 @@ function Ball(x, y, width, height, dx, dy) {
 	this.dx = dx;
 	this.dy = dy;
 	this.image = new Image();
-	this.image.src = "images/ball.png";
+	this.image.src = "images/Chrome_Logo.svg";
 }
 
 Ball.prototype.setBoard = function(board) {
