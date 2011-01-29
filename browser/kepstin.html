@@ -4,8 +4,9 @@
 <title>HTML5 Pong!</title>
 <link rel="stylesheet" type="text/css" href="kepstin.css">
 <script type="text/javascript" src="js/kepstinui.js"></script>
+<!--<script type="text/javascript" src="js/paddle.js"></script>
 <script type="text/javascript" src="js/ball.js"></script>
-<script type="text/javascript" src="js/game_board.js"></script>
+<script type="text/javascript" src="js/game_board.js"></script>-->
 <script type="text/javascript" src="js/network.js"></script>
 </head>
 <body>
@@ -25,7 +26,7 @@
 <th>Server</th><td><input type="text" name="server" value="ws://ec2-50-16-163-8.compute-1.amazonaws.com:9001" style="width:25em"></td>
 </tr>
 </table>
-<p><input type="submit" name="connect" value="Go!" onclick="serverConnect(document.forms.connect.server.value); return false"></p>
+<p><input type="submit" name="connect" value="Go!" onclick="serverConnect(document.forms.connect.server.value); return false;"></p>
 </form>
 </div>
 
@@ -41,7 +42,7 @@
 </tr>
 </table>
 <form name="lobby">
-<p><input type="submit" name="ready" value="I'm Ready!" onclick="serverReady(); return false"></p>
+<p><input type="submit" name="ready" value="I'm Ready!" onclick="serverReady(); return false;"></p>
 </form>
 </div>
 
