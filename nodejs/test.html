@@ -10,10 +10,9 @@
 			alert('Closed');
 		};
 		socket.onmessage = function(msg){
-			alert(msg);
+			var d = JSON.parse(msg.data);
+			alert(d.code);
 		};
-
-		socket.connect();
 	</script>
 </body>
 </html>

@@ -18,7 +18,18 @@ Response.prototype.welcome = function(player){
 };
 Response.prototype.isFull = function(){
 	this.response.code = 503;
-	this.response.data = {reason: 'Server is full'}
+	this.response.data = {reason: 'Server is full'};
+	return this.response;
+};
+Response.prototype.playerLeft = function(){
+	this.response.code = 600;
+	this.response.data = {};
+	return this.response;
+};
+Response.prototype.playerJoined = function(player){
+	this.response.code = 100;
+	this.response.data = player;
+	return this.response;
 };
 /**
  * Pong Server that uses HTML WebSockets for its main form of
@@ -51,7 +62,7 @@ PongServer = function(port) {
 	  		}else{
 	  			return false;
 	  		}
-	  		return true;
+	  		return player;
 	  },
 	  getFromConn : function(conn_id){
 		  if(this.connections.hasOwnProperty(conn_id)){
@@ -95,10 +106,13 @@ PongServer.prototype.onListen = function() {
  */
 PongServer.prototype.onConnection = function(conn) {
   syslog('onConnection: from ' + conn.id);
-  if(this.players_['add'](conn.id)){
-	  //TODO: Welcome message
+  var response = new Response();
+  var player = this.players_['add'](conn.id);
+  if(player){
+	 this.send(conn, response.welcome());
+  }else{
+	 this.send(conn, response.isFull());
   }
-  //TODO: No more space left for players
 };
 
 /**
@@ -114,11 +128,8 @@ PongServer.prototype.onMessage = function(conn, message) {
 PongServer.prototype.onDisconnect = function(conn) {
 	syslog('onDisconnect:' + conn.id);
 	this.players_.removeByConn(conn.id);
-  /**var user = this.users_[conn.id].nick;
-  syslog('onDisconnect: ' + user);
-  this.broadcast({nick: user, id: conn.id}, NotificationCommand.PART);
-  delete this.users_[conn.id];
-  */
+	var response = new Response();
+	this.broadcast(response.playerLeft());
 };
 
 /**
@@ -135,8 +146,9 @@ PongServer.prototype.broadcast = function(message, command, protocol) {
   this.server_.broadcast(JSON.stringify({}));
 };
 
-PongServer.prototype.send = function(conn, message, command, protocol) {
-  conn.send(JSON.stringify({}));
+PongServer.prototype.send = function(conn, response) {
+  syslog(JSON.stringify(response));
+  conn.send(JSON.stringify(response));
 };
 
 var server = new PongServer(9001);
