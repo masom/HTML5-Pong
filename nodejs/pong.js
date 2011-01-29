@@ -10,10 +10,9 @@ Message = function(){
 };
 
 Message.prototype.parse = function(message){
-	syslog("Received Message: " + message);
 	this.message = JSON.parse(message);
-	this.code = message.code;
-	this.data = message.data;
+	this.code = this.message.code;
+	this.data = this.message.data;
 };
 
 Message.prototype.isPaddleMove = function(){
