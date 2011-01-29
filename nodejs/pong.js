@@ -7,7 +7,7 @@ Message = function(){
 	this.data = {};
 };
 
-Message.prototype.parse(message){
+Message.prototype.parse = function(message){
 	this.message = JSON.parse(message);
 	this.code = message.code;
 	this.data = message.data;
@@ -170,7 +170,7 @@ PongServer.prototype.onMessage = function(conn, message) {
 		syslog("Unknown player: " + conn.id);
 		return;
 	}
-	var message new Message(message);
+	var message = new Message(message);
 	
 	if ( message.isPaddleMove() ){
 		if(this.started = true){
