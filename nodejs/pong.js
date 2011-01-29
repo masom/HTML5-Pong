@@ -202,14 +202,15 @@ PongServer.prototype.onConnection = function(conn) {
 /**
  * Fires when the connection sent a message.
  */
-PongServer.prototype.onMessage = function(conn, message) {
+PongServer.prototype.onMessage = function(conn, msg) {
 	//TODO: handling messages
 	var player = this.players_.getFromConn(conn.id);
 	if(!player){
 		syslog("Unknown player: " + conn.id);
 		return;
 	}
-	var message = new Message(message);
+	var message = new Message();
+	message.parse(msg);
 	
 	if ( message.isPaddleMove() ){
 		if(this.started = true){
