@@ -27,7 +27,9 @@ Ball.prototype.update = function() {
 
 function collisionDetection(ball) {
 	if (ball.x < 0 || ball.x > 1.0 - ball.width) {
-		ball.dx = -ball.dx;
+		var changeEvent = document.createEvent(ball);
+        changeEvent.initEvent("out_of_bounds", true, false);
+        document.dispatchEvent(changeEvent);
 	}
 	if (ball.y < 0 || ball.y > 1.0 - ball.height) {
 		ball.dy = -ball.dy;
