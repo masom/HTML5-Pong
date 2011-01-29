@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTML5 Pong!</title>
+<style type="text/css">
+body {
+  margin: 0 4em;
+  padding: 0;
+}
+#player1score, #player2score {
+  background: white;
+  border: medium solid black;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  height: 2em;
+  font-size: 2em;
+  width: 6em;
+  line-height: 2em;
+  text-align: center;
+}
+#player1score {
+  position: absolute;
+  top: 0.5em;
+  left: 2em;
+}
+#player2score {
+  position: absolute;
+  top: 0.4em;
+  right: 2em;
+}
+h1 {
+  margin: 0.5em 6em 0;
+  height: 2em;
+  font-size: 2em;
+  line-height: 2em;
+  text-align: center;
+}
+#playarea {
+  font-size: inherit;
+  border-top: 1em solid black;
+  border-bottom: 1em solid black;
+  margin: 1em 0;
+  box-sizing: content-box;
+  width: 100%;
+  height: 70%;
+}
+#player1name {
+  position: absolute;
+  top: 5em;
+  left: -1em;
+  font-size: 2em;
+  -webkit-transform: rotate(-90deg);
+}
+#player2name {
+  position: absolute;
+  top: 5em;
+  right: -1em;
+  font-size: 2em;
+  -webkit-transform: rotate(90deg);
+}
+#dialogue {
+  position: absolute;
+  top: 14em;
+  left: 25%;
+  width: 50%;
+  height: 40%;
+  border: medium solid black;
+  padding: 2em;
+  border-radius: 1em;
+  box-sizing: border-box;
+}
+</style>
+</head>
+<body>
+<h1>HTML5 Pong!</h1>
+<div id="player1score">0</div>
+<div id="player2score">0</div>
+<canvas id="playarea"></canvas>
+<div id="player1name">Player 1</div>
+<div id="player2name">Player 2</div>
+<div id="dialogue">
+<p>Stuff goes in here</p>
+</div>
+</body>
+</html>
