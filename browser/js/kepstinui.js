@@ -12,3 +12,12 @@ function hideConnect() {
 	dialogue = document.getElementById("connect");
 	dialogue.style.display = "none";
 }
+
+function showLobby() {
+	dialogue = document.getElementById("lobby");
+	
+	playerinfo = document.getElementById("playerinfo");
+	playerinfo.innerText = "You are " + playerName;
+	
+	dialogue.style.display = "block";
+}
