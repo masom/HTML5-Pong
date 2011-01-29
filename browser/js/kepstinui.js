@@ -7,3 +7,8 @@ function setPlayerName(playerNum, playerName) {
 	nameBox = document.getElementById("player" + playerNum + "name");
 	nameBox.innerText = playerName;
 }
+
+function hideDialogue() {
+	dialogue = document.getElementById("dialogue");
+	dialogue.style.display = "none";
+}
