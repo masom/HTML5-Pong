@@ -174,7 +174,8 @@ PongServer.prototype.onMessage = function(conn, message) {
 	
 	if ( message.isPaddleMove() ){
 		if(this.started = true){
-			//TODO: Paddle move
+			player.data.position = message.data.pos;
+			syslog(this.players_.getFromConn(conn.id));
 		}else{
 			syslog("Player: " + player.name + "; Attempting to move paddle when game is not started");
 		}
