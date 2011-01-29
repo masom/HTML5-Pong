@@ -123,6 +123,12 @@ PongServer = function(port) {
 			  this[this.connections[conn_id]] = null;
 			  delete this.connections[conn_id];
 		  }
+	  },
+	  allReady : function(){
+		  if (this.One.data.ready && this.Two.data.ready){
+			  return true;
+		  }
+		  return false;
 	  }
   };
   this.init();
@@ -135,6 +141,9 @@ PongServer.prototype.startGame = function(){
 		0.005, 0.005
 	);
 	this.ballUpdater = setInterval(this.ball.update, 60);
+	
+	var response = new Response();
+	this.broadcast(response.gameStart());
 };
 /**
  * Initialize the listeners to handle the various notifications..
@@ -194,7 +203,7 @@ PongServer.prototype.onMessage = function(conn, message) {
 		player.ready = true;
 		syslog(this.players_.getFromConn(conn.id));
 		if(this.players_.allReady()){
-			//TODO Match Start.
+			this.startGame();
 		}
 	}else{
 		syslog("Player: " + player.name + "; Unknown message:" + message.message);
@@ -216,7 +225,7 @@ PongServer.prototype.onDisconnect = function(conn) {
  * Start listening for connections.
  */
 PongServer.prototype.start = function() {
-  this.server_.listen(this.port_);
+	this.server_.listen(this.port_);
 };
 
 /**
@@ -224,12 +233,12 @@ PongServer.prototype.start = function() {
  */
 PongServer.prototype.broadcast = function(response) {
 	syslog(JSON.stringify(response));
-  this.server_.broadcast(JSON.stringify(response));
+	this.server_.broadcast(JSON.stringify(response));
 };
 
 PongServer.prototype.send = function(conn, response) {
-  syslog(JSON.stringify(response));
-  conn.send(JSON.stringify(response));
+	syslog(JSON.stringify(response));
+	conn.send(JSON.stringify(response));
 };
 
 var server = new PongServer(9001);
