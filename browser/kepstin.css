@@ -35,24 +35,24 @@ h1 {
   font-size: inherit;
   border-top: 1em solid;
   border-bottom: 1em solid;
-  margin: 1em 0;
+  margin: 3em 0;
   box-sizing: content-box;
   width: 100%;
   height: 70%;
 }
 #player1name {
   position: absolute;
-  top: 5em;
-  left: -1em;
+  top: 2.5em;
+  left: 2em;
   font-size: 2em;
-  -webkit-transform: rotate(-90deg);
+  height: 2em;
 }
 #player2name {
   position: absolute;
-  top: 5em;
-  right: -1em;
+  top: 2.5em;
+  right: 2em;
   font-size: 2em;
-  -webkit-transform: rotate(90deg);
+  height: 2em;
 }
 #dialogue {
   position: absolute;
