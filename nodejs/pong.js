@@ -6,6 +6,7 @@ Message = function(){
 	this.message = {};
 	this.code = 0;
 	this.data = {};
+	this.text = '';
 };
 
 Message.prototype.parse = function(message){
@@ -33,29 +34,35 @@ Response = function(){
 Response.prototype.welcome = function(player){
 	this.response.code = 200;
 	this.response.data = player;
+	this.response.text = 'Welcome';
 	return this.response;
 };
 Response.prototype.isFull = function(){
 	this.response.code = 503;
 	this.response.data = {reason: 'Server is full'};
+	this.response.text = 'Server full. Try again later';
 	return this.response;
 };
-Response.prototype.playerLeft = function(){
+Response.prototype.playerLeft = function(player){
 	this.response.code = 600;
-	this.response.data = {};
+	this.response.data = player;
+	this.response.text = 'Player [' + player.name + '] Left';
 	return this.response;
 };
 Response.prototype.playerJoined = function(player){
 	this.response.code = 100;
 	this.response.data = player;
+	this.response.text = 'Player [' + player.name + '] Joined';
 	return this.response;
 };
 Response.prototype.gameStart = function(){
 	this.response.code = 110;
+	this.response.text = 'Game started';
 	return this.response;
 };
 Response.prototype.gameEnd = function(){
 	this.response.code = 120;
+	this.response.text = 'Game ended';
 	return this.response;
 };
 Response.prototype.paddleMoved = function(player, pos){
@@ -67,6 +74,7 @@ Response.prototype.gameState = function(ball, p1, p2) {
 	this.response.code = 300;
 	//TODO: grab this info from a central place
 	this.response.data = {ball: ball, playerOne:p1, playerTwo:p2};
+	this.response.text = 'Game state update';
 	return this.response;
 };
 Response.prototype.ballData = function(data){
@@ -91,6 +99,7 @@ PongServer = function(port) {
 		    var player = {
 		    	conn_id : conn_id,
 		    	name : 'Player ',
+		    	id : 0,
 		    	data: {
 		    		position : 0,
 		    		ready : false 
@@ -98,11 +107,13 @@ PongServer = function(port) {
 		    };
 	  		if(this.One == null){
 	  			player.name += "One";
+	  			player.id = 1;
 	  			this.connections[player.conn_id] = 'One';
 	  			this.One = player;
 	  			syslog("Player One set as: " + player.conn_id);
 	  		}else if(this.Two == null){
 	  			player.name += "Two";
+	  			player.id = 2;
 	  			this.connections[player.conn_id] = 'Two';
 	  			this.Two = player;
 	  			syslog("Player Two set as: " + player.conn_id);
@@ -164,7 +175,7 @@ PongServer.prototype.onConnection = function(conn) {
   var response = new Response();
   var player = this.players_['add'](conn.id);
   if(player){
-	 this.send(conn, response.welcome());
+	 this.send(conn, response.welcome(player));
 	 this.broadcast(response.playerJoined(player));
   }else{
 	 this.send(conn, response.isFull());
@@ -223,7 +234,7 @@ PongServer.prototype.start = function() {
  * Broadcast a message to all the available
  */
 PongServer.prototype.broadcast = function(response) {
-	syslog(JSON.stringify(response));
+	syslog('Broadcasting: ' + JSON.stringify(response));
   this.server_.broadcast(JSON.stringify(response));
 };
 
