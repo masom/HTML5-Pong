@@ -28,10 +28,6 @@ function onTimerTick() {
 	board.draw();
 }
 
-document.addEventListener("mousemove", function(e) {
-	p1.setTarget(e.x, e.y - canvas.offsetTop);
-});
-
 document.addEventListener("out_of_bounds", function(e) {
 	ball.x = 0.5;
 	ball.y = Math.random();
