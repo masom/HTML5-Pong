@@ -40,12 +40,12 @@ function enablePaddle(playerNum) {
 	if (playerNum == 1) {
 		document.addEventListener("mousemove", function(e) {
 			p1.setTarget(e.x, e.y - canvas.offsetTop);
-			updatePaddle(e.y - canvas.offsetTop);
+			updatePaddle((e.y - canvas.offsetTop) / canvas.clientHeight);
 		});
 	} else {
 		document.addEventListener("mousemove", function(e) {
 			p2.setTarget(e.x, e.y - canvas.offsetTop);
-			updatePaddle(e.y - canvas.offsetTop);
+			updatePaddle(e.y - canvas.offsetTop / canvas.clientHeight);
 		});
 	}
 }

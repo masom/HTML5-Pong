@@ -34,6 +34,7 @@ function serverConnect(serverName) {
 function serverReady() {
 	var message = {
 		code : 155,
+		data : {},
 		text : playerName + " is ready",
 	};
 	socket.send(JSON.stringify(message));
@@ -42,7 +43,9 @@ function serverReady() {
 function updatePaddle(newPos) {
 	var message = {
 		code : 150,
-		pos : newPos
+		data : {
+			pos : newPos
+		}
 	};
 	socket.send(JSON.stringify(message));
 }
