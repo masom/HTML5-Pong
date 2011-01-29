@@ -63,7 +63,7 @@ h1 {
   top: 11em;
   left: 25%;
   width: 50%;
-
+  background: rgba(0,0,0,0.8);
   border: medium solid;
   padding: 2em;
   border-radius: 1em;
