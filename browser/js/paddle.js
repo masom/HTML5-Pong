@@ -73,6 +73,61 @@ Paddle.prototype.collisionDetection = function() {
 	}
 }
 
+Paddle.prototype.intersects = function(object) {
+	var this_w2 = this.width / 2.0;
+	var this_h2 = this.height / 2.0;
+	var object_w2 = object.width / 2.0;
+	var object_h2 = object.height / 2.0;
+	
+	var object_north = object.y - object_h2;
+	var object_south = object.y + object_h2;
+	var object_east  = object.x + object_w2;
+	var object_west  = object.x - object_w2;
+	
+	var this_north = this.y - this_h2;
+	var this_south = this.y + this_h2;
+	var this_east  = this.x + this_w2;
+	var this_west  = this.x - this_w2;
+
+	var intersect_north = false;
+	var intersect_south = false;
+	var intersect_east  = false;
+	var intersect_west  = false;
+
+	// North
+	if (object_south >= this_north && object_south < this_south) {
+		intersect_north = true;
+	}
+	// South
+	if (object_north <= this_south && object_north > this_north) {
+		intersect_south = true;
+	}
+
+	// East
+	if (object_west <= this_east && object_west > this_west) {
+		intersect_east = true;
+	}
+	// West
+	if (object_east >= this_west && object_east < this_east) {
+		intersect_west = true;
+	}
+
+	/*if (intersect_north && (intersect_east || intersect_west)) {
+		return {x: 1, y: -1, type:'north'};
+	}
+	if (intersect_south && (intersect_east || intersect_west)) {
+		return {x: 1, y: -1, type:'south'};
+	}*/
+	if (intersect_east && (intersect_north || intersect_south)) {
+		return {x: -1, y: 1, type:'east'};
+	}
+	if (intersect_west && (intersect_north || intersect_south)) {
+		return {x: -1, y: 1, type:'west'};
+	}
+
+	return null;
+}
+
 Paddle.prototype.draw = function(context) {
 	context.fillStyle = '#fff';
 	var w2 = this.width / 2.0;
