@@ -77,9 +77,12 @@ Response.prototype.gameState = function(ball, p1, p2) {
 	this.response.text = 'Game state update';
 	return this.response;
 };
-Response.prototype.ballData = function(data){
-	
+Response.prototype.playerReady = function(player){
+	this.response.code = 160;
+	this.response.data = player;
+	return this.response;
 };
+
 /**
  * Pong Server that uses HTML WebSockets for its main form of
  * communication.
@@ -215,18 +218,23 @@ PongServer.prototype.onMessage = function(conn, msg) {
 	if ( message.isPaddleMove() ){
 		if(this.started = true){
 			player.data.position = message.data.pos;
-			syslog(this.players_.getFromConn(conn.id));
+			syslog("Player " + player.name + " paddle moved");
 			var response = new Response();
 			this.broadcast(response.paddleMoved(player, message.data.pos));
 		}else{
 			syslog("Player: " + player.name + "; Attempting to move paddle when game is not started");
 		}
+		return;
 	}else if ( message.isPlayerReady() ){
 		player.ready = true;
-		syslog(this.players_.getFromConn(conn.id));
+		syslog("Player " + player.name + " is ready");
 		if(this.players_.allReady()){
 			this.startGame();
+		}else{
+			var response = new Response();
+			this.broadcast(response.playerReady(player));
 		}
+		return;
 	}else{
 		syslog("Player: " + player.name + "; Unknown message:" + message.message);
 	}
