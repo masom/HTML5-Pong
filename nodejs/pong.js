@@ -153,7 +153,10 @@ PongServer = function(port) {
 		  }
 	  },
 	  allReady : function(){
-		  if (this.One.data.ready && this.Two.data.ready){
+		  if(!this.One || !this.Two){
+			  return false;
+		  }
+		  else if (this.One.data.ready && this.Two.data.ready){
 			  return true;
 		  }
 		  return false;
@@ -214,6 +217,7 @@ PongServer.prototype.onConnection = function(conn) {
 	 
 	 var otherReady = this.players_.otherIsReady();
 	 if(otherReady){
+		 syslog("Other player is already ready. Telling new player.");
 		 this.send(conn, response.playerReady(otherReady));
 	 }
 	 
@@ -247,7 +251,7 @@ PongServer.prototype.onMessage = function(conn, msg) {
 		}
 		return;
 	}else if ( message.isPlayerReady() ){
-		player.ready = true;
+		player.data.ready = true;
 		syslog("Player " + player.name + " is ready");
 		if(this.players_.allReady()){
 			this.startGame();
