@@ -53,7 +53,7 @@ function enablePaddle(playerNum) {
 function updateOtherPaddle(playerNum, newPos) {
 	if (playerNum == 1) {
 		p2.setTarget(0, newPos * canvas.clientHeight);
-	} else {
+	} else if (playerNum == 2) {
 		p1.setTarget(0, newPos * canvas.clientHeight);
 	}
 }
