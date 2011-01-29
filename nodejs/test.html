@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<body>
+	<script type="text/javascript">
+		var socket = new WebSocket("ws://localhost:9001");
+		socket.onopen = function(){
+			alert('Open');
+		};
+		socket.onclose = function(){
+			alert('Closed');
+		};
+		socket.onmessage = function(msg){
+			alert(msg);
+		};
+
+		socket.connect();
+	</script>
+</body>
+</html>
+
