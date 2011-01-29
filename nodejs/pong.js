@@ -1,6 +1,25 @@
 var ws = require('./websocket/ws/server');
 require('./functions');
 
+Response = function(){
+	this.response = {
+			code : 0,
+			data : {}, 
+			version : 1
+	};
+	this.init();
+};
+Response.prototype.init = function(){
+};
+Response.prototype.welcome = function(player){
+	this.response.code = 200;
+	this.response.data = player;
+	return this.response;
+};
+Response.prototype.isFull = function(){
+	this.response.code = 503;
+	this.response.data = {reason: 'Server is full'}
+};
 /**
  * Pong Server that uses HTML WebSockets for its main form of
  * communication.
