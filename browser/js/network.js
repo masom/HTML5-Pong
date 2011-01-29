@@ -22,6 +22,8 @@ function serverConnect(serverName) {
 			showLobby();
 		} else if (d.code == 600) {
 			// Player left	
+		} else if (d.code == 900) {
+			// Paddle update
 		} else {
 			alert(d.text + "\n" + msg.data);
 		}
