@@ -2,7 +2,7 @@
 <html>
 <body>
 	<script type="text/javascript">
-		var socket = new WebSocket("ws://localhost:9001");
+		var socket = new WebSocket("ws://ec2-50-16-163-8.compute-1.amazonaws.com:9001");
 		socket.onopen = function(){
 			alert('Open');
 		};
@@ -11,7 +11,7 @@
 		};
 		socket.onmessage = function(msg){
 			var d = JSON.parse(msg.data);
-			alert(d.code);
+			alert(d.code + ' ' + d.text);
 		};
 	</script>
 </body>
