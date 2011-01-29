@@ -14,6 +14,8 @@ Message.prototype.parse = function(message){
 	this.message = JSON.parse(message);
 	this.code = message.code;
 	this.data = message.data;
+	
+	syslog("Code:" + this.code);
 };
 
 Message.prototype.isPaddleMove = function(){
