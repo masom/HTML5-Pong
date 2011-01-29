@@ -15,7 +15,7 @@ function serverConnect(serverName) {
 			hideLobby();
 			enablePaddle(playerNum);
 		} else if (d.code == 160) {
-			setPlayerReady(d.data.id, d.data.ready);
+			setPlayerReady(d.data.id, true);
 		} else if (d.code == 200) {
 			playerNum = d.data.id;
 			playerName = d.data.name;
