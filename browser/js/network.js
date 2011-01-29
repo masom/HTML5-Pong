@@ -30,6 +30,5 @@ function serverReady() {
 		text : playerName + " is ready",
 		version : 1
 	};
-	alert(JSON.stringify(message));
 	socket.send(JSON.stringify(message));
 }

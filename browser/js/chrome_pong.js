@@ -4,7 +4,7 @@ Author: Shawn Simister
 This file constructs the game board and sets up the main event loop.
 */
 
-var canvas = document.getElementById("game_board");
+var canvas = document.getElementById("playarea");
 var context = canvas.getContext("2d");
 
 var board = new GameBoard(context);
@@ -29,7 +29,7 @@ function onTimerTick() {
 }
 
 document.addEventListener("mousemove", function(e) {
-	p1.setTarget(e.x, e.y);
+	p1.setTarget(e.x, e.y - canvas.offsetTop);
 });
 
 document.addEventListener("out_of_bounds", function(e) {
