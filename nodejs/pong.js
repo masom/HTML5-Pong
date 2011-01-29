@@ -1,5 +1,6 @@
 var ws = require('./websocket/ws/server');
 require('./functions');
+require('./ball');
 
 Message = function(){
 	this.message = {};
@@ -56,18 +57,18 @@ Response.prototype.gameStart = function(){
 Response.prototype.gameEnd = function(){
 	this.response.code = 120;
 	return this.response;
-}
+};
 Response.prototype.paddleMoved = function(player, pos){
 	this.response.code = 900;
 	this.response.data = {player: player, pos: pos};
 	return this.response;
 };
-Response.prototype.gameState = function(p1, p2) {
+Response.prototype.gameState = function(ball, p1, p2) {
 	this.response.code = 300;
 	//TODO: grab this info from a central place
-	this.response.data = {ballX:10, ballY:10, ballDX:1, ballDY:1, playerOne:p1, playerTwo:p2};
+	this.response.data = {ball: ball, playerOne:p1, playerTwo:p2};
 	return this.response;
-}
+};
 Response.prototype.ballData = function(data){
 	
 };
@@ -77,9 +78,11 @@ Response.prototype.ballData = function(data){
  * @param {number} port The port number to run the server.
  */
 PongServer = function(port) {
-  this.port_ = port;
-  this.server_ = ws.createServer();
-  this.started = false;
+	this.port_ = port;
+	this.server_ = ws.createServer();
+	this.started = false;
+	this.ball = null;
+	this.ballUpdater = null;
   this.players_ = {
 	  connections : {},
 	  One : null, 
@@ -124,7 +127,15 @@ PongServer = function(port) {
   };
   this.init();
 };
-
+PongServer.prototype.startGame = function(){
+	delete(this.ball);
+	this.ball = new Ball(
+		0.2, 0.5,
+		0.05, 0.05,
+		0.005, 0.005
+	);
+	this.ballUpdater = setInterval(this.ball.update, 60);
+};
 /**
  * Initialize the listeners to handle the various notifications..
  */
