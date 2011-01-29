@@ -8,6 +8,15 @@ function setPlayerName(playerNum, playerName) {
 	nameBox.innerText = playerName;
 }
 
+function setPlayerReady(playerNum, playerReady) {
+	readyBox = document.getElementById("player" + playerNum + "ready");
+	if (playerReady) {
+		readyBox.innerText = "Ready";
+	} else {
+		readyBox.innerText = "Not Ready";
+	}
+}
+
 function hideConnect() {
 	dialogue = document.getElementById("connect");
 	dialogue.style.display = "none";
