@@ -4,16 +4,14 @@ Author: Shawn Simister
 The Ball class implements a bouncing ball object.
 */
 
-function Ball(x, y, width, height, dx, dy) {
+Ball = function (x, y, width, height, dx, dy) {
 	this.x = x;
 	this.y = y;
 	this. width = width;
 	this.height = height;
 	this.dx = dx;
 	this.dy = dy;
-	this.image = new Image();
-	this.image.src = "images/ball.png";
-}
+};
 
 Ball.prototype.update = function() {
 	this.x += this.dx;

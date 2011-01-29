@@ -165,20 +165,21 @@ PongServer = function(port) {
   this.init();
 };
 PongServer.prototype.startGame = function(){
+	/**
 	delete(this.ball);
 	this.ball = new Ball(
 		0.2, 0.5,
 		0.05, 0.05,
-		0.005, 0.005
+		0.05, 0.05
 	);
-	this.ballUpdater = setInterval(this.updateBall.bind(this), 60);
-	
+	this.ballUpdater = setInterval(this.updateBall.bind(this), 600);
+	*/
 	var response = new Response();
 	this.broadcast(response.gameStart());
 };
 PongServer.prototype.stopGame = function(){
 	this.started = false;
-	clearInterval(this.ballUpdater);
+	//clearInterval(this.ballUpdater);
 };
 PongServer.prototype.updateBall = function(){
 	this.ball.update();
