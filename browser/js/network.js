@@ -23,7 +23,9 @@ function serverConnect(serverName) {
 		} else if (d.code == 600) {
 			// Player left	
 		} else if (d.code == 900) {
-			// Paddle update
+			if (d.data.id != playerNum) {
+				updateOtherPaddle(playerNum, d.data.pos);
+			}
 		} else {
 			alert(d.text + "\n" + msg.data);
 		}
