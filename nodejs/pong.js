@@ -46,7 +46,7 @@ Response.prototype.isFull = function(){
 Response.prototype.playerLeft = function(player){
 	this.response.code = 600;
 	this.response.data = player;
-	this.response.text = 'Player [' + player.name + '] Left';
+	this.response.text = 'Player Left';
 	return this.response;
 };
 Response.prototype.playerJoined = function(player){
@@ -236,6 +236,7 @@ PongServer.prototype.onMessage = function(conn, msg) {
 		syslog("Unknown player: " + conn.id);
 		return;
 	}
+
 	var message = new Message();
 	message.parse(msg);
 	
