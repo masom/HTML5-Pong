@@ -16,7 +16,7 @@ Message.prototype.parse = function(message){
 };
 
 Message.prototype.isPaddleMove = function(){
-	return (this.code == 150 && data.hasOwnProperty('pos'));
+	return (this.code == 150 && this.data.hasOwnProperty('pos'));
 };
 
 Message.prototype.isPlayerReady = function(){
@@ -244,7 +244,7 @@ PongServer.prototype.onMessage = function(conn, msg) {
 	if ( message.isPaddleMove() ){
 		if(this.started = true){
 			player.data.position = message.data.pos;
-			syslog("Player " + player.name + " paddle moved");
+			syslog("Player " + player.name + " paddle moved to " + player.data.position);
 			var response = new Response();
 			this.broadcast(response.paddleMoved(player, message.data.pos));
 		}else{
