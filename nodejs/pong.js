@@ -171,7 +171,7 @@ PongServer.prototype.startGame = function(){
 		0.05, 0.05,
 		0.005, 0.005
 	);
-	this.ballUpdater = setInterval(this.updateBall, 60);
+	this.ballUpdater = setInterval(this.updateBall.bind(this), 60);
 	
 	var response = new Response();
 	this.broadcast(response.gameStart());
