@@ -30,13 +30,24 @@ Response.prototype.playerJoined = function(player){
 	return this.response;
 };
 Response.prototype.gameStart = function(){
-	this.response.code = 100;
+	this.response.code = 110;
+	return this.response;
 };
+Response.prototype.gameEnd = function(){
+	this.response.code = 120;
+	return this.response;
+}
 Response.prototype.paddleMoved = function(player, pos){
 	this.response.code = 900;
 	this.response.data = {player: player, pos: pos};
 	return this.response;
 };
+Response.prototype.gameState = function(p1, p2) {
+	this.response.code = 300;
+	//TODO: grab this info from a central place
+	this.response.data = {ballX:10, ballY:10, ballDX:1, ballDY:1, playerOne:p1, playerTwo:p2};
+	return this.response;
+}
 Response.prototype.ballData = function(data){
 	
 };
@@ -64,10 +75,12 @@ PongServer = function(port) {
 	  			player.name += "One";
 	  			this.connections[player.conn_id] = 'One';
 	  			this.One = player;
+	  			syslog("Player One set as: " + player.conn_id);
 	  		}else if(this.Two == null){
 	  			player.name += "Two";
 	  			this.connections[player.conn_id] = 'Two';
 	  			this.Two = player;
+	  			syslog("Player Two set as: " + player.conn_id);
 	  		}else{
 	  			return false;
 	  		}
@@ -119,6 +132,7 @@ PongServer.prototype.onConnection = function(conn) {
   var player = this.players_['add'](conn.id);
   if(player){
 	 this.send(conn, response.welcome());
+	 this.send(conn, response.gameState(this.players_['One'], this.players_['Two']));
   }else{
 	 this.send(conn, response.isFull());
   }
