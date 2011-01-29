@@ -27,7 +27,6 @@ function serverConnect(serverName) {
 			if (d.data.player.id == playerNum) {
 				
 			} else {
-				alert(d.text + "\n" + msg.data);
 				updateOtherPaddle(d.data.player.id, d.data.pos);
 			}
 		} else {
