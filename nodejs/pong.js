@@ -82,6 +82,11 @@ Response.prototype.playerReady = function(player){
 	this.response.data = player;
 	return this.response;
 };
+Response.prototype.playerScores = function(playerOne, playerTwo){
+	this.response.code = 170;
+	this.response.data = {playerOne : playerOne.data.score, playerTwo: playerTwo.data.score};
+	return this.response;
+};
 
 /**
  * Pong Server that uses HTML WebSockets for its main form of
@@ -105,7 +110,8 @@ PongServer = function(port) {
 		    	id : 0,
 		    	data: {
 		    		position : 0,
-		    		ready : false 
+		    		ready : false,
+		    		score: 0
 		    	}
 		    };
 	  		if(this.One == null){
@@ -124,6 +130,14 @@ PongServer = function(port) {
 	  			return false;
 	  		}
 	  		return player;
+	  },
+	  otherIsReady : function(){
+		  if(this.One && this.One.data.ready){
+			  return this.One;
+		  }
+		  if(this.Two && this.Two.data.ready){
+			  return this.Two;
+		  }
 	  },
 	  getFromConn : function(conn_id){
 		  if(this.connections.hasOwnProperty(conn_id)){
@@ -197,6 +211,12 @@ PongServer.prototype.onConnection = function(conn) {
   if(player){
 	 this.send(conn, response.welcome(player));
 	 this.broadcast(response.playerJoined(player));
+	 
+	 var otherReady = this.players_.otherIsReady();
+	 if(otherReady){
+		 this.send(conn, response.playerReady(otherReady));
+	 }
+	 
   }else{
 	 this.send(conn, response.isFull());
   }
@@ -222,7 +242,8 @@ PongServer.prototype.onMessage = function(conn, msg) {
 			var response = new Response();
 			this.broadcast(response.paddleMoved(player, message.data.pos));
 		}else{
-			syslog("Player: " + player.name + "; Attempting to move paddle when game is not started");
+			syslog("Player: " + player.name + "; Moved paddle when game is not started");
+			this.broadcast(response.gameState(this.ball, this.players_.One, this.players_.Two));
 		}
 		return;
 	}else if ( message.isPlayerReady() ){
