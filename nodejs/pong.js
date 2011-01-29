@@ -34,11 +34,18 @@ PongServer = function(port) {
 	  		}
 	  		return true;
 	  },
-	  get : function(conn_id){
-		  if(this.players_[connections].hasOwnProperty(conn_id)){
-			  return this.players_[this.players_[connections][conn_id]];
+	  getFromConn : function(conn_id){
+		  if(this.connections.hasOwnProperty(conn_id)){
+			  return this[this.connections[conn_id]];
 		  }
 		  return null;
+	  },
+	  removeByConn : function(conn_id){
+		  var player = this.getFromConn(conn_id);
+		  if(player){
+			  this[this.connections[conn_id]] = null;
+			  delete this.connections[conn_id];
+		  }
 	  }
   };
   this.init();
@@ -69,7 +76,7 @@ PongServer.prototype.onListen = function() {
  */
 PongServer.prototype.onConnection = function(conn) {
   syslog('onConnection: from ' + conn.id);
-  if(this.players_['add'](conn_id)){
+  if(this.players_['add'](conn.id)){
 	  //TODO: Welcome message
   }
   //TODO: No more space left for players
@@ -86,6 +93,8 @@ PongServer.prototype.onMessage = function(conn, message) {
  * Fires when a user is being disconnected.
  */
 PongServer.prototype.onDisconnect = function(conn) {
+	syslog('onDisconnect:' + conn.id);
+	this.players_.removeByConn(conn.id);
   /**var user = this.users_[conn.id].nick;
   syslog('onDisconnect: ' + user);
   this.broadcast({nick: user, id: conn.id}, NotificationCommand.PART);
