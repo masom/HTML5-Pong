@@ -10,6 +10,7 @@ Message = function(){
 };
 
 Message.prototype.parse = function(message){
+	syslog("Received Message: " + message);
 	this.message = JSON.parse(message);
 	this.code = message.code;
 	this.data = message.data;
