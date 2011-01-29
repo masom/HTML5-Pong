@@ -23,8 +23,12 @@ function serverConnect(serverName) {
 		} else if (d.code == 600) {
 			// Player left	
 		} else if (d.code == 900) {
-			if (d.data.id != playerNum) {
-				updateOtherPaddle(playerNum, d.data.pos);
+			//alert(d.text + "\n" + msg.data);
+			if (d.data.player.id == playerNum) {
+				
+			} else {
+				alert(d.text + "\n" + msg.data);
+				updateOtherPaddle(d.data.player.id, d.data.pos);
 			}
 		} else {
 			alert(d.text + "\n" + msg.data);

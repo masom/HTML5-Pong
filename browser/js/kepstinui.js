@@ -50,10 +50,10 @@ function enablePaddle(playerNum) {
 	}
 }
 
-function updateOtherPaddle(playerNum, newPos) {
-	if (playerNum == 1) {
-		p2.setTarget(0, newPos * canvas.clientHeight);
-	} else if (playerNum == 2) {
+function updateOtherPaddle(otherPlayerNum, newPos) {
+	if (otherPlayerNum == 1) {
 		p1.setTarget(0, newPos * canvas.clientHeight);
+	} else if (otherPlayerNum == 2) {
+		p2.setTarget(0, newPos * canvas.clientHeight);
 	}
 }
