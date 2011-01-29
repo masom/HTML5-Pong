@@ -1,4 +1,7 @@
+@import "http://fonts.googleapis.com/css?family=Geo:regular";
 body {
+  font-family: Geo, serif;
+  font-size: 12pt;
   margin: 0 4em;
   padding: 0;
   background: black;
@@ -10,8 +13,9 @@ body {
   -webkit-box-sizing: border-box;
   height: 2em;
   font-size: 2em;
-  width: 6em;
+  width: 4em;
   line-height: 2em;
+  border-radius: 0.5em;
   text-align: center;
 }
 #player1score {
@@ -25,7 +29,7 @@ body {
   right: 2em;
 }
 h1 {
-  margin: 0.5em 6em 0;
+  margin: 0.5em 4.5em 0;
   height: 2em;
   font-size: 2em;
   line-height: 2em;
@@ -56,12 +60,41 @@ h1 {
 }
 #dialogue {
   position: absolute;
-  top: 14em;
+  top: 11em;
   left: 25%;
   width: 50%;
-  height: 40%;
+
   border: medium solid;
   padding: 2em;
   border-radius: 1em;
   box-sizing: border-box;
+}
+#dialogue h2, #dialogue p {
+  text-align: center;
+  margin: 0;
+}
+#dialogue table {
+  margin: 0 auto;
+}
+input[type=text] {
+  border: medium solid;
+  color: inherit;
+  background: inherit;
+  padding: 0 0.5em;
+  font: inherit;
+}
+input[type=submit] {
+  border: medium solid;
+  border-radius: 0.5em;
+  font: inherit;
+  color: inherit;
+  background: inherit;
+  font-size: 2em;
+  font-weight: bold;
+  padding: 0 1em;
+}
+input[type=submit]:active {
+  position: relative;
+  top: 0.1em;
+  left: 0.1em;
 }
