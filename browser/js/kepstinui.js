@@ -45,7 +45,7 @@ function enablePaddle(playerNum) {
 	} else {
 		document.addEventListener("mousemove", function(e) {
 			p2.setTarget(e.x, e.y - canvas.offsetTop);
-			updatePaddle(e.y - canvas.offsetTop / canvas.clientHeight);
+			updatePaddle((e.y - canvas.offsetTop) / canvas.clientHeight);
 		});
 	}
 }
