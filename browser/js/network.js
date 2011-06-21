@@ -97,11 +97,11 @@ PongNetwork.prototype.onSocketClose(evt){
 };
 
 /**
- * playerReady
+ * ready
  * 
  * Sends a player ready message to the server.
  */
-PongNetwork.Protocol.prototype.playerReady(){
+PongNetwork.Protocol.prototype.ready(){
 	var msg = {
 			code: 155,
 			data: {},

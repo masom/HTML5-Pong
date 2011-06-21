@@ -388,7 +388,7 @@ PongGameBoard.prototype.intersects = function(object) {
 	if (object_east >= this_west && object_east < this_east) {
 		intersect_west = true;
 	}
-
+	
 	if (intersect_east && (intersect_north || intersect_south)) {
 		return {x: -1, y: 1, type: 'east'};
 	}

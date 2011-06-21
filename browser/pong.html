@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HTML5 Pong!</title>
+	<link rel="stylesheet" type="text/css" href="pong.css">
+	<script type="text/javascript" src="js/data.js"></script>
+	<script type="text/javascript" src="js/network.js"></script>
+	<script type="text/javascript" src="js/ui.js"></script>
+</head>
+<body>
+	<h1><img src="images/HTML5Pong.svg" alt="HTML5 Pong!"></h1>
+	<div id="scoreboards_player_one">0</div>
+	<div id="scoreboards_player_two">0</div>
+	<div id="players_name_one">Player One</div>
+	<div id="players_name_two">Player Two</div>
+
+	<canvas id="playarea"></canvas>
+
+	<div id="connect" class="dialogue">
+		<h2>Start Game</h2>
+		<table>
+			<tr>
+				<th>Server</th>
+				<td><input type="text" id="server_address" value="ws://localhost:9001" style="width:25em"></td>
+			</tr>
+		</table>
+		<p><button name="connect" onclick="PongNetwork.connect(document.getElementById('server_address').value); return false;">Go!</button></p>
+	</div>
+	
+	<div id="lobby" class="dialogue" style="display:none;">
+	<h2>Game Lobby</h2>
+		<p id="playerinfo">&nbsp;</p>
+		<table>
+			<tr>
+				<th>Player One</th><td id="readyboxes_one">Not Ready</td>
+			</tr>
+			<tr>
+				<th>Player Two</th><td id="readyboxes_two">Not Ready</td>
+			</tr>
+		</table>
+		<p><button name="ready" onclick="PongNetwork.ready(); return false;">I'm Ready!</button></p>
+	</div>
+</body>
+</html>
