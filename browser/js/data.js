@@ -1,7 +1,7 @@
 /**
  * PongData
  *
- * @license GPL-2.0 License (http://opensource.org/licenses/GPL-2.0)
+ * @license http://opensource.org/licenses/bsd-license.php The BSD License
  */
 function PongData(){
 	this.Players = {
