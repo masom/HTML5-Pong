@@ -3,6 +3,7 @@
  * 
  * @license http://opensource.org/licenses/bsd-license.php The BSD License
  */
+PongUI.prototype = new PongObject();
 function PongUI(){
 	this.ScoreBoards = {};
 	this.PlayerNames = {};
@@ -36,7 +37,8 @@ PongUI.prototype.init = function(){
 
 	this.Buttons['connect'] = document.getElementById('buttons_connect');
 	this.Buttons['ready'] = document.getElementById('buttons_ready');
-
+	this.Buttons['message_close'] = document.getElementById('buttons_message_box_close');
+	
 	this.setupButtons();
 
 	this.Lobby = document.getElementById('lobby');
@@ -91,6 +93,10 @@ PongUI.prototype.setupButtons = function(){
 		PongNetwork.ready();
 		return false;
 	}, true);
+
+	this.Buttons['message_close'].addEventListener('click', function(e){
+		this.MessageBox.window.style.display='none';
+	}.bind(this), false);
 };
 
 /**
@@ -221,7 +227,7 @@ PongUI.prototype.enablePaddles = function(){
 		//TODO: Better handling of this exception
 		alert("PongUI.enablePaddles error: Invalid player id.");
 		return;
-		break;
+		break;bind;
 	case 'one':
 	case 'two':
 		this.MyPaddle = this.Paddles(PongData.Players.me);
@@ -303,9 +309,9 @@ PongBall.prototype.update = function() {
 
 PongBall.prototype.collisionDetection = function() {
 
-	for (var i in this.board.objects) {
-		if (this != this.board.objects[i]) {
-			var intersection = this.board.objects[i].intersects(this);
+	for (var i in this.board.items){
+		if (this != this.board.items[i]) {
+			var intersection = this.board.items[i].intersects(this);
 			if (intersection != null) {
 				this.dx = intersection.x * this.dx;
 				this.dy = intersection.y * this.dy;
@@ -472,24 +478,24 @@ function PongGameBoard(context){
 	this.height = context.canvas.scrollHeight;
 	this.context.canvas.width = this.width;
 	this.context.canvas.height = this.height;
-	this.objects = [];
+	this.items = [];
 };
 
 PongGameBoard.prototype.addObject = function(object) {
 	object.setBoard(this);
-	this.objects.push(object);
+	this.items.push(object);
 };
 
 PongGameBoard.prototype.update = function() {
-	for (var i in this.objects) {
-		this.objects[i].update();
+	for (var i in this.items) {
+		this.items[i].update();
 	}
 };
 
 PongGameBoard.prototype.draw = function() {
 	this.context.clearRect(0, 0, this.width, this.height);
-	for (var i in this.objects) {
-		this.objects[i].draw(this.context);
+	for (var i in this.items) {
+		this.items[i].draw(this.context);
 	}
 };
 

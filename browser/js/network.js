@@ -5,7 +5,7 @@
  * 
  * @license http://opensource.org/licenses/bsd-license.php The BSD License
  */
-
+PongNetwork.prototype = new PongObject();
 function PongNetwork(){
 	this.socket = null;
 
@@ -27,32 +27,6 @@ function PongNetwork(){
 	this.JSON = JSON;
 	this.Protocol = new PongProtocol();
 }
-
-/**
- * toArray
- * 
- * http://javascriptweblog.wordpress.com/2010/04/05/curry-cooking-up-tastier-functions/
- */
-function toArray(enum) {
-    return Array.prototype.slice.call(enum);
-}
-
-/**
- * bind
- * @see http://javascriptweblog.wordpress.com/2010/04/05/curry-cooking-up-tastier-functions/
- * @returns function
- */
-PongNetwork.prototype.bind = function() {
-    if (arguments.length<1) {
-        return this; //nothing to curry with - return function
-    }
-    var __method = this;
-    var args = toArray(arguments);
-    return function() {
-        return __method.apply(this, args.concat(toArray(arguments)));
-    };
-};
-
 PongNetwork.Protocol = function(){};
 
 /**
@@ -63,10 +37,10 @@ PongNetwork.prototype.connect = function(serverName){
 	this.socketState = this.SOCKET_OPENING;
 
 	this.socket = new WebSocket(serverName);
-	this.socket.onopen = this.onSocketOpen.bind(this);
-	this.socket.onmessage = this.onSocketMessage.bind(this);
-	this.socket.onerror = this.onSocketError.bind(this);
-	this.socket.onclose = this.onSocketClose.bind(this);
+	this.socket.addEventListener('open', this.onSocketOpen.bind(this));
+	this.socket.addEventListener('close', this.onSocketClose.bind(this));
+	this.socket.addEventListener('error', this.onSocketError.bind(this));
+	this.socket.addEventListener('message', this.onSocketMessage.bind(this));
 };
 
 /**
@@ -98,6 +72,7 @@ PongNetwork.prototype.onSocketOpen = function(){
  */
 PongNetwork.prototype.onSocketMessage = function(message){
 	var msg = this.JSON.parse(message.data);
+	alert(msg.code);
 	switch (msg.code){
 	default:
 		PongUI.alert("PongNetwork", "Unknown message code: " + msg.code);
@@ -139,7 +114,6 @@ PongNetwork.prototype.onSocketClose = function(evt){
 	//TODO: Better handling.
 	switch(this.socketState){
 		case this.SOCKET_OPENED:
-			break;
 		case this.SOCKET_CLOSED:
 			PongUI.alert("Connection Lost", "The connection to the game server was lost.");
 			break;

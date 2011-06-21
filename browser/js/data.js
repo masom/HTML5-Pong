@@ -42,3 +42,36 @@ PongData.prototype.registerPlayer = function(id, name){
 PongData.prototype.unregisterPlayer = function(id){
 	this.Players[this.getPlayerFromId(id)] = '';
 };
+
+/**
+ * toArray
+ * 
+ * http://javascriptweblog.wordpress.com/2010/04/05/curry-cooking-up-tastier-functions/
+ */
+function toArray(enum) {
+    return Array.prototype.slice.call(enum);
+}
+
+/**
+ * PongObject
+ * 
+ * Base object extended by pong components.
+ * @returns {PongObject}
+ */
+function PongObject(){}
+
+/**
+ * bind
+ * @see http://javascriptweblog.wordpress.com/2010/04/05/curry-cooking-up-tastier-functions/
+ * @returns function
+ */
+PongObject.prototype.bind = function(){
+    if (arguments.length<1) {
+        return this; //nothing to curry with - return function
+    }
+    var __method = this;
+    var args = toArray(arguments);
+    return function() {
+        return __method.apply(this, args.concat(toArray(arguments)));
+    };
+};
