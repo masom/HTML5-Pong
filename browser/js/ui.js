@@ -33,8 +33,14 @@ PongUI.prototype.init = function(){
 	this.PlayerNames['two'] = document.getElementById('players_name_two');
 	this.ReadyBoxes['one'] = document.getElementById('readyboxes_one');
 	this.ReadyBoxes['two'] = document.getElementById('readyboxes_two');
+
 	this.Buttons['connect'] = document.getElementById('buttons_connect');
+	this.Buttons['ready'] = document.getElementById('buttons_ready');
+
+	this.setupButtons();
+
 	this.Lobby = document.getElementById('lobby');
+	this.Connect = document.getElementById('connect');
 	this.Labels['lobby_name'] = document.getElementById('labels_lobby_name');
 
 	this.MessageBox = {
@@ -69,11 +75,42 @@ PongUI.prototype.init = function(){
 	setInterval(PongUI.onTimerTick, 16);
 };
 
+/**
+ * setupButtons
+ * 
+ * Sets up the different buttons of the ui and attach different event handlers.
+ */
+PongUI.prototype.setupButtons = function(){
+	this.Buttons['connect'].addEventListener('click', function(e){
+		var address = document.getElementById('inputs_server_address').value;
+		PongNetwork.connect(address);
+		return false;
+	}, true);
+
+	this.Buttons['ready'].addEventListener('click', function(e){
+		PongNetwork.ready();
+		return false;
+	}, true);
+};
+
+/**
+ * onTimerTick
+ * 
+ * Game global timer for drawing.
+ */
 PongUI.prototype.onTimerTick = function(){
 	PongUI.Board.update();
 	PongUI.Board.draw();
 };
 
+/**
+ * alert
+ * 
+ * Displays a message
+ * 
+ * @param string title The message title
+ * @param string message The message to be displayed
+ */
 PongUI.prototype.alert = function(title, message){
 	this.MessageBox.title.innerText = title;
 	this.MessageBox.message.innerText = message;
@@ -121,7 +158,6 @@ PongUI.prototype.setPlayerReady = function(player, ready){
 	}else{
 		state = 'Not Ready';
 	}
-
 	this.ReadyBoxes[player].innerText = state;
 };
 
@@ -147,13 +183,21 @@ PongUI.prototype.hideButton = function(button){
 	this.Buttons[button].style.display = 'none';
 };
 
+PongUI.prototype.hideConnect = function(){
+	this.Connect.style.display = 'none';
+};
+
+PongUI.prototype.showConnect = function(){
+	this.Connect.style.display = 'block';
+};
+
 /**
  * showLobby
  * 
  * Shows the lobby.
  */
 PongUI.prototype.showLobby = function(){
-	this.Labels['lobby_name'].innerText = "You are " + this.PlayerNames[PongData.Players.me];
+	this.Labels['lobby_name'].innerText = "You are " + PongData.Players[PongData.Players.Me];
 	this.Lobby.style.display = 'block';
 };
 

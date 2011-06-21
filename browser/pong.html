@@ -29,15 +29,15 @@
 		<table>
 			<tr>
 				<th>Server</th>
-				<td><input type="text" id="server_address" value="ws://localhost:9001" style="width:25em"></td>
+				<td><input type="text" id="inputs_server_address" value="ws://localhost:9001" style="width:25em"></td>
 			</tr>
 		</table>
-		<p><button name="connect" onclick="PongNetwork.connect(document.getElementById('server_address').value); return false;">Go!</button></p>
+		<p><button id="buttons_connect">Go!</button></p>
 	</div>
 	
 	<div id="lobby" class="dialogue" style="display:none;">
 	<h2>Game Lobby</h2>
-		<p id="playerinfo">&nbsp;</p>
+		<p id="labels_lobby_name">&nbsp;</p>
 		<table>
 			<tr>
 				<th>Player One</th><td id="readyboxes_one">Not Ready</td>
@@ -46,7 +46,7 @@
 				<th>Player Two</th><td id="readyboxes_two">Not Ready</td>
 			</tr>
 		</table>
-		<p><button name="ready" onclick="PongNetwork.ready(); return false;">I'm Ready!</button></p>
+		<p><button id="buttons_ready">I'm Ready!</button></p>
 	</div>
 	
 

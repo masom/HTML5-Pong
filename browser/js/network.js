@@ -16,15 +16,16 @@ function PongNetwork(){
 
 	this.socketState = this.SOCKET_NEW;
 
-	this.MESSAGE_WELCOME = 100;
+	this.MESSAGE_WELCOME = 200;
 	this.MESSAGE_GAME_START = 110;
 	this.MESSAGE_PLAYER_READY = 160;
-	this.MESSAGE_PLAYER_JOINED = 200;
+	this.MESSAGE_PLAYER_JOINED = 100;
 	this.MESSAGE_PLAYER_LEFT = 600;
 	this.MESSAGE_PADDLE_MOVE = 900;
 
 	//TODO: Wrap this up for other browsers.
 	this.JSON = JSON;
+	this.Protocol = new PongProtocol();
 }
 
 /**
@@ -72,7 +73,7 @@ PongNetwork.prototype.connect = function(serverName){
  * onSocketError
  * 
  * Triggered when there is a WebSocket error.
- * @param object error
+ * @param object errorMESSAGE_WELCOME
  */
 PongNetwork.prototype.onSocketError = function(error){
 	//TODO: Better handling of the error message.
@@ -102,16 +103,19 @@ PongNetwork.prototype.onSocketMessage = function(message){
 		PongUI.alert("PongNetwork", "Unknown message code: " + msg.code);
 		break;
 	case this.MESSAGE_WELCOME:
+		PongData.setPlayers(msg.data.id);
+		PongUI.showLobby();
 		break;
 	case this.MESSAGE_GAME_START:
 		PongUI.hideLobby();
 		PongUI.enablePaddles();
 		break;
 	case this.MESSAGE_PLAYER_READY:
-		PongUI.setPlayerReady(msg.data.id, true);
+		var player = PongData.getPlayerFromId(msg.data.id);
+		PongUI.setPlayerReady(player, true);
 		break;
 	case this.MESSAGE_PLAYER_JOINED:
-		PongData.registerPlayer(msg.data.id, d.data.name);
+		PongData.registerPlayer(msg.data.id, msg.data.name);
 		PongUI.showLobby();
 		break;
 	case this.MESSAGE_PLAYER_LEFT:
@@ -120,7 +124,8 @@ PongNetwork.prototype.onSocketMessage = function(message){
 		PongUI.showLobby();
 		break;
 	case this.MESSAGE_PADDLE_MOVE:
-		PongUI.updatePaddle(msg.data.player.id, msg.data.pos);
+		var player = PongData.getPlayerFromId(msg.data.player.id);
+		PongUI.updatePaddle(player, msg.data.pos);
 		break;
 	}
 };
@@ -144,19 +149,25 @@ PongNetwork.prototype.onSocketClose = function(evt){
 	}
 };
 
+PongNetwork.prototype.ready = function(){
+	this.socket.send(this.JSON.stringify(this.Protocol.ready()));
+};
+
+function PongProtocol(){
+	this.version = 1;
+};
+
 /**
  * ready
  * 
  * Sends a player ready message to the server.
  */
-PongNetwork.Protocol.prototype.ready = function(){
-	var msg = {
-			code: 155,
-			data: {},
-			text: PongUI.Player.name + " is ready."
+PongProtocol.prototype.ready = function(){
+	return {
+		code: 155,
+		data: {},
+		text: PongData.Players[PongData.Players.Me] + " is ready."
 	};
-
-	this.socket.send(this.JSON.stringify(message));
 };
 
 /**
@@ -166,12 +177,11 @@ PongNetwork.Protocol.prototype.ready = function(){
  * 
  * @param float newPos New paddle position
  */
-PongNetwork.Protocol.prototype.updatePaddle = function(newPos){
-	var msg = {
+PongProtocol.prototype.updatePaddle = function(newPos){
+	return {
 		code: 150,
 		data: {
 			pos: newPos
 		}
 	};
-	this.socket.send(this.JSON.stringify(msg));
 };

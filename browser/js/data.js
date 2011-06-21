@@ -5,21 +5,28 @@
  */
 function PongData(){
 	this.Players = {
-		one: '',
-		two: '',
+		one: 'Player One',
+		two: 'Player Two',
 		Me: '',
 		Other: ''
 	};
 }
 
+PongData.prototype.getPlayerFromId = function(id){
+	if (id == 1){
+		return 'one';
+	}else{
+		return 'two';
+	}
+};
 /**
  * setPlayers
  * 
  * Sets the players based on who is the current player
  * @param string me Identify of the current player
  */
-PongData.prototype.setPlayers = function(me){
-	if(me == 'one'){
+PongData.prototype.setPlayers = function(id){
+	if (id == 1){
 		this.Players.Me  = 'one';
 		this.Players.Other = 'two';
 	}else{
@@ -28,10 +35,10 @@ PongData.prototype.setPlayers = function(me){
 	}
 };
 
-PongData.prototype.registerPlayer = function(player, name){
-	this.Players[player] = name;
+PongData.prototype.registerPlayer = function(id, name){
+	this.Players[this.getPlayerFromId(id)] = name;
 };
 
-PongData.prototype.unregisterPlayer = function(player){
-	this.Players[player] = '';
+PongData.prototype.unregisterPlayer = function(id){
+	this.Players[this.getPlayerFromId(id)] = '';
 };
