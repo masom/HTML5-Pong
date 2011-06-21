@@ -19,7 +19,7 @@ function Paddle(x, y, width, height, sx, sy) {
 
 Paddle.prototype.setBoard = function(board) {
 	this.board = board;
-}
+};
 
 Paddle.prototype.setTarget = function(x, y) {
 	this.target_x = x;
@@ -38,13 +38,13 @@ Paddle.prototype.setTarget = function(x, y) {
 	} else if (ry > this.target_y + rspeed_y) {
 		this.dy = -this.speed_y;
 	}
-}
+};
 
 Paddle.prototype.update = function() {
 	this.x += this.dx;
 	this.y += this.dy;
 	this.collisionDetection();
-}
+};
 
 Paddle.prototype.collisionDetection = function() {
 	var w2 = this.width / 2.0;
@@ -71,7 +71,7 @@ Paddle.prototype.collisionDetection = function() {
 		this.dy = 0;
 		this.y = this.target_y / this.board.height;
 	}
-}
+};
 
 Paddle.prototype.intersects = function(object) {
 	var this_w2 = this.width / 2.0;
@@ -126,7 +126,7 @@ Paddle.prototype.intersects = function(object) {
 	}
 
 	return null;
-}
+};
 
 Paddle.prototype.draw = function(context) {
 	context.fillStyle = '#fff';
@@ -135,4 +135,4 @@ Paddle.prototype.draw = function(context) {
 	var x = this.board.relativeX(this.x - w2);
 	var y = this.board.relativeY(this.y - h2);
 	context.fillRect(x, y, this.board.relativeX(this.width), this.board.relativeY(this.height));
-}
+};
