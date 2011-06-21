@@ -64,17 +64,17 @@ h1 {
 }
 div#message_box, .dialogue{
 	position: absolute;
-	background: rgba(0,0,0,0.8);
 	border: medium solid;
 	padding: 2em;
 	border-radius: 1em;
 	box-sizing: border-box;
 }
 .dialogue{
-  top: 11em;
-  left: 15%;
-  width: 70%;
-  min-width: 40em;
+	background: rgba(0,0,0,0.8);
+	top: 35%;
+	left: 15%;
+	width: 70%;
+	min-width: 40em;
 }
 .dialogue h2, .dialogue p, div#message_box {
   text-align: center;
@@ -106,9 +106,12 @@ button {
   left: 0.1em;
 }
 div#message_box{
+	background: rgba(0,0,0,0.9);
 	display: none;
-	width: 30%;
-	min-height: 10%;
+	top: 0em;
+	left: 0em;
+	width: 40%;
+	height: 25%;
 	color: white;
 }
 h1#message_box_title{
@@ -116,6 +119,6 @@ h1#message_box_title{
 	padding:0;
 }
 p#message_box_message{
-	margin-top: 20px;
-	margin-bottom: 20px;
+	margin-top: 1em;
+	margin-bottom: 1em;
 }
