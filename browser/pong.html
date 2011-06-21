@@ -16,44 +16,49 @@
 			PongUI.init();
 		});
 	</script>
-	<h1><img src="images/HTML5Pong.svg" alt="HTML5 Pong!"></h1>
-	<div id="scoreboards_player_one">0</div>
-	<div id="scoreboards_player_two">0</div>
-	<div id="players_name_one">Player One</div>
-	<div id="players_name_two">Player Two</div>
-
-	<canvas id="playarea"></canvas>
-
-	<div id="connect" class="dialogue">
-		<h2>Start Game</h2>
-		<table>
-			<tr>
-				<th>Server</th>
-				<td><input type="text" id="inputs_server_address" value="ws://localhost:9001" style="width:25em"></td>
-			</tr>
-		</table>
-		<button id="buttons_connect">Go!</button>
-	</div>
+	<div id="pong">
+		<h1><img src="images/HTML5Pong.svg" alt="HTML5 Pong!"></h1>
+		<div id="scoreboards_player_one">0</div>
+		<div id="scoreboards_player_two">0</div>
+		<div id="players_name_one">Player One</div>
+		<div id="players_name_two">Player Two</div>
 	
-	<div id="lobby" class="dialogue" style="display:none;">
-	<h2>Game Lobby</h2>
-		<p id="labels_lobby_name">&nbsp;</p>
-		<table>
-			<tr>
-				<th>Player One</th><td id="readyboxes_one">Not Ready</td>
-			</tr>
-			<tr>
-				<th>Player Two</th><td id="readyboxes_two">Not Ready</td>
-			</tr>
-		</table>
-		<p><button id="buttons_ready">I'm Ready!</button></p>
-	</div>
+		<div id="container_playarea">
+			<canvas id="playarea"></canvas>
+		</div>
+		
 	
-
-	<div id="message_box">
-		<h2 id="message_box_title"></h2>
-		<p id="message_box_message"></p>
-		<button id="buttons_message_box_close">Close</button>
+		<div id="connect" class="dialogue">
+			<h2>Start Game</h2>
+			<table>
+				<tr>
+					<th>Server</th>
+					<td><input type="text" id="inputs_server_address" value="ws://localhost:9001" style="width:25em"></td>
+				</tr>
+			</table>
+			<button id="buttons_connect">Go!</button>
+		</div>
+		
+		<div id="lobby" class="dialogue" style="display:none;">
+		<h2>Game Lobby</h2>
+			<p id="labels_lobby_name">&nbsp;</p>
+			<table>
+				<tr>
+					<th>Player One</th><td id="readyboxes_one">Not Ready</td>
+				</tr>
+				<tr>
+					<th>Player Two</th><td id="readyboxes_two">Not Ready</td>
+				</tr>
+			</table>
+			<p><button id="buttons_ready">I'm Ready!</button></p>
+		</div>
+		
+	
+		<div id="message_box">
+			<h2 id="message_box_title"></h2>
+			<p id="message_box_message"></p>
+			<button id="buttons_message_box_close">Close</button>
+		</div>
 	</div>
 </body>
 </html>

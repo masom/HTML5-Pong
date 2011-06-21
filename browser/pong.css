@@ -1,18 +1,19 @@
 @import "http://fonts.googleapis.com/css?family=Geo:regular";
 *{
 	margin: 0;
-	padding:0;
+	padding: 0;
 }
 body {
   font-family: Geo, serif;
   font-size: 12pt;
-  margin: 0 4em;
-  padding: 0;
   background: black;
   color: white;
 }
 div#connect{
 	text-align: center;
+}
+div#pong{
+	margin: 0 3em;
 }
 #scoreboards_player_one, #scoreboards_player_two {
   border: medium solid;
@@ -30,11 +31,13 @@ div#connect{
   top: 0.5em;
   left: 2em;
 }
+
 #scoreboards_player_two {
   position: absolute;
   top: 0.4em;
   right: 2em;
 }
+
 h1 {
   margin: 0.5em 4.5em 0;
   height: 2em;
@@ -43,14 +46,13 @@ h1 {
   text-align: center;
 }
 #playarea {
-  font-size: inherit;
-  border-top: 1em solid;
-  border-bottom: 1em solid;
-  margin: 3em 0;
-  box-sizing: content-box;
-  width: 100%;
-  height: 60%;
+	box-sizing: content-box;
+	width: 100%;
+	height: 60%;
+	border-top: 1em solid;
+	border-bottom: 1em solid;
 }
+
 #players_name_one {
   position: absolute;
   top: 2.5em;

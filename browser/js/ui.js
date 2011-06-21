@@ -55,7 +55,7 @@ PongUI.prototype.init = function(){
 	this.Context = this.Canvas.getContext("2d");
 	this.Board = new PongGameBoard(this.Context);
 	this.Ball = new PongBall(
-		    0.2, 0.5,
+		    0.19, 0.5,
 		    0.05, 0.05,
 		    -0.005, 0.005
 	);
@@ -299,6 +299,15 @@ function PongBall(x, y, width, height, dx, dy) {
 	this.height = height;
 	this.dx = dx;
 	this.dy = dy;
+
+	this.halfWidth = this.width / 2;
+	this.halfHeight = this.height / 2;
+
+	this.leftBoundary = 1.0 - this.halfWidth;
+	this.rightBoundary = 0.0;
+	this.topBoundary = 0.0;
+	this.bottomBoundary = 1.0 - this.halfHeight;
+
 	this.image = new Image();
 	this.image.src = "images/Chrome_Logo.svg";
 }
@@ -314,26 +323,34 @@ PongBall.prototype.update = function() {
 };
 
 PongBall.prototype.collisionDetection = function() {
-
+	var intersection = null;
 	for (var i in this.board.items){
-		if (this != this.board.items[i]) {
-			var intersection = this.board.items[i].intersects(this);
-			if (intersection != null) {
-				this.dx = intersection.x * this.dx;
-				this.dy = intersection.y * this.dy;
-			}
+		if (this == this.board.items[i]){
+			continue;
+		}
+
+		// This will only check for intersection if the item is on the same side of the board.
+		if(this.board.items[i].x > 0.9 && this.x > 0.9
+			|| this.board.items[i].x < 0.1 && this.x < 0.1){
+			intersection = this.board.items[i].intersects(this);
+		}else{
+			//Skip the other paddle
+			continue;
+		}
+
+		if (intersection != null) {
+			this.dx = intersection.x * this.dx;
+			this.dy = intersection.y * this.dy;
 		}
 	}
-	
-	var w2 = this.width / 2.0;
-	var h2 = this.height / 2.0;
 
-	if (this.x < w2 || this.x > 1.0 - w2) {
+	if (this.x < this.rightBoundary || this.x > this.leftBoundary ) {
 		var changeEvent = document.createEvent("Event");
         changeEvent.initEvent("out_of_bounds", true, false);
         document.dispatchEvent(changeEvent);
 	}
-	if (this.y < h2 || this.y > 1.0 - h2) {
+
+	if (this.y < this.topBoundary || this.y > this.bottomBoundary) {
 		this.dy = -this.dy;
 	}
 };
@@ -343,10 +360,8 @@ PongBall.prototype.intersects = function(object) {
 };
 
 PongBall.prototype.draw = function(context) {
-	var w2 = this.width / 2.0;
-	var h2 = this.height / 2.0;
-	var x = this.board.relativeX(this.x - w2);
-	var y = this.board.relativeY(this.y - h2);
+	var x = this.board.relativeX(this.x - this.halfWidth);
+	var y = this.board.relativeY(this.y - this.halfHeight);
 	context.drawImage(this.image, x, y, this.board.relativeX(this.width), this.board.relativeX(this.height));
 };
 
@@ -362,6 +377,9 @@ function PongPaddle(x, y, width, height, sx, sy) {
 	this.speed_y = sy;
 	this.dx = 0;
 	this.dy = 0;
+
+	this.halfWidth = this.width / 2;
+	this.halfHeight = this.height / 2;
 }
 
 PongPaddle.prototype.setBoard = function(board) {
@@ -394,8 +412,8 @@ PongPaddle.prototype.update = function() {
 };
 
 PongPaddle.prototype.collisionDetection = function() {
-	var w2 = this.width / 2.0;
-	var h2 = this.height / 2.0;
+	var w2 = this.halfWidth;
+	var h2 = this.halfHeight;
 	if (this.x < w2) {
 		this.x = w2;
 	} else if (this.x > 1.0 - w2) {
@@ -421,8 +439,8 @@ PongPaddle.prototype.collisionDetection = function() {
 };
 
 PongPaddle.prototype.intersects = function(object) {
-	var this_w2 = this.width / 2.0;
-	var this_h2 = this.height / 2.0;
+	var this_w2 = this.halfWidth;
+	var this_h2 = this.halfHeight;
 	var object_w2 = object.width / 2.0;
 	var object_h2 = object.height / 2.0;
 	
@@ -471,13 +489,12 @@ PongPaddle.prototype.intersects = function(object) {
 
 PongPaddle.prototype.draw = function(context) {
 	context.fillStyle = '#fff';
-	var w2 = this.width / 2.0;
-	var h2 = this.height / 2.0;
-	var x = this.board.relativeX(this.x - w2);
-	var y = this.board.relativeY(this.y - h2);
+	var x = this.board.relativeX(this.x - this.halfWidth);
+	var y = this.board.relativeY(this.y - this.halfHeight);
 	context.fillRect(x, y, this.board.relativeX(this.width), this.board.relativeY(this.height));
 };
 
+PongGameBoard.prototype = new PongObject();
 function PongGameBoard(context){
 	this.context = context;
 	this.width = context.canvas.scrollWidth;
