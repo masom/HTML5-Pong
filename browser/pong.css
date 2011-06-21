@@ -1,4 +1,8 @@
 @import "http://fonts.googleapis.com/css?family=Geo:regular";
+*{
+	margin: 0;
+	padding:0;
+}
 body {
   font-family: Geo, serif;
   font-size: 12pt;
@@ -58,19 +62,21 @@ h1 {
   font-size: 2em;
   height: 2em;
 }
-.dialogue {
-  position: absolute;
+div#message_box, .dialogue{
+	position: absolute;
+	background: rgba(0,0,0,0.8);
+	border: medium solid;
+	padding: 2em;
+	border-radius: 1em;
+	box-sizing: border-box;
+}
+.dialogue{
   top: 11em;
   left: 15%;
   width: 70%;
   min-width: 40em;
-  background: rgba(0,0,0,0.8);
-  border: medium solid;
-  padding: 2em;
-  border-radius: 1em;
-  box-sizing: border-box;
 }
-.dialogue h2, .dialogue p {
+.dialogue h2, .dialogue p, div#message_box {
   text-align: center;
   margin: 0;
 }
@@ -101,9 +107,15 @@ button {
 }
 div#message_box{
 	display: none;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 200px;
-	height: 300px;
+	width: 30%;
+	min-height: 10%;
+	color: white;
+}
+h1#message_box_title{
+	margin: 0;
+	padding:0;
+}
+p#message_box_message{
+	margin-top: 20px;
+	margin-bottom: 20px;
 }

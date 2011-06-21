@@ -44,7 +44,7 @@ PongUI.prototype.init = function(){
 		title: document.getElementById("message_box_title"),
 		message: document.getElementById("message_box_message")
 	};
-
+	
 	this.Canvas = document.getElementById("playarea");
 	this.Context = this.Canvas.getContext("2d");
 	this.Board = new PongGameBoard(this.Context);
@@ -77,9 +77,11 @@ PongUI.prototype.onTimerTick = function(){
 };
 
 PongUI.prototype.alert = function(title, message){
-	this.MessageBox['title'] = title;
-	this.MessageBox['message'] = message;
-	this.MessageBox['window'].style.display = 'block';
+	this.MessageBox.title.innerText = title;
+	this.MessageBox.message.innerText = message;
+	this.MessageBox.window.style.display = 'block';
+	this.MessageBox.window.style.top = (document.height / 2) - this.MessageBox.window.style.height + 'px';
+	this.MessageBox.window.style.left = (document.width / 2) - this.MessageBox.window.style.width + 'px';
 };
 /**
  * setPlayerScore
