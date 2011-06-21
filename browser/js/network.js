@@ -72,7 +72,7 @@ PongNetwork.prototype.onSocketOpen = function(){
  */
 PongNetwork.prototype.onSocketMessage = function(message){
 	var msg = this.JSON.parse(message.data);
-	alert(msg.code);
+
 	switch (msg.code){
 	default:
 		PongUI.alert("PongNetwork", "Unknown message code: " + msg.code);
