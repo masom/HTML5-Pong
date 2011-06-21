@@ -33,6 +33,10 @@ PongNetwork.Protocol = function(){};
  * Connect
  */
 PongNetwork.prototype.connect = function(serverName){
+	if(PongNetwork.socketState != PongNetwork.SOCKET_NEW){
+		return;
+	}
+
 	//TODO: Verify WebSocket is accessible.
 	this.socketState = this.SOCKET_OPENING;
 
@@ -118,7 +122,9 @@ PongNetwork.prototype.onSocketClose = function(evt){
 			PongUI.alert("Connection Lost", "The connection to the game server was lost.");
 			break;
 		default:
+			this.socketState = this.SOCKET_NEW;
 			PongUI.alert("Connection Error", "A connection to the game server could not be made.");
+			PongUI.showConnect();
 			break;
 	}
 };

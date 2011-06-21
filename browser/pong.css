@@ -11,6 +11,9 @@ body {
   background: black;
   color: white;
 }
+div#connect{
+	text-align: center;
+}
 #scoreboards_player_one, #scoreboards_player_two {
   border: medium solid;
   box-sizing: border-box;
@@ -101,7 +104,6 @@ button{
   padding: 0 1em;
 }
 button {
-  position: relative;
   top: 0.1em;
   left: 0.1em;
 }

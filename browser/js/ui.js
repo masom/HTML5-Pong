@@ -84,17 +84,22 @@ PongUI.prototype.init = function(){
  */
 PongUI.prototype.setupButtons = function(){
 	this.Buttons['connect'].addEventListener('click', function(e){
+		e.stopPropagation();
 		var address = document.getElementById('inputs_server_address').value;
 		PongNetwork.connect(address);
+		this.style.display = 'none';
 		return false;
 	}, true);
 
 	this.Buttons['ready'].addEventListener('click', function(e){
+		e.stopPropagation();
 		PongNetwork.ready();
+		this.style.display = 'none';
 		return false;
 	}, true);
 
 	this.Buttons['message_close'].addEventListener('click', function(e){
+		e.stopPropagation();
 		this.MessageBox.window.style.display='none';
 	}.bind(this), false);
 };
@@ -194,7 +199,8 @@ PongUI.prototype.hideConnect = function(){
 };
 
 PongUI.prototype.showConnect = function(){
-	this.Connect.style.display = 'block';
+	this.Buttons['connect'].style.display = '';
+	this.Connect.style.display = '';
 };
 
 /**
@@ -204,7 +210,7 @@ PongUI.prototype.showConnect = function(){
  */
 PongUI.prototype.showLobby = function(){
 	this.Labels['lobby_name'].innerText = "You are " + PongData.Players[PongData.Players.Me];
-	this.Lobby.style.display = 'block';
+	this.Lobby.style.display = '';
 };
 
 /**
