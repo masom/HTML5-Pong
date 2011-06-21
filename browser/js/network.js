@@ -66,20 +66,22 @@ PongNetwork.prototype.onSocketMessage(message){
 		break;
 	case 110: // Game on
 		PongUI.hideLobby();
-		PongUI.Paddles.enablePaddle();
+		PongUI.enablePaddles();
 		break;
 	case 160: // A player is ready.
-		PongUI.onPlayerReady(msg.data.id, true);
+		PongUI.setPlayerReady(msg.data.id, true);
 		break;
 	case 200: // A player joined.
-		PongUI.registerPlayer(msg.data.id, d.data.name);
+		PongData.registerPlayer(msg.data.id, d.data.name);
 		PongUI.showLobby();
 		break;
 	case 600: // Other player left
 		PongUI.unregisterPlayer(msg.data.id);
+		PongUI.stop();
+		PongUI.showLobby();
 		break;
 	case 900: // Paddle move.
-		PongUI.Paddles.move(msg.data.player.id, msg.data.pos);
+		PongUI.updatePaddle(msg.data.player.id, msg.data.pos);
 		break;
 	}
 }
@@ -113,6 +115,8 @@ PongNetwork.Protocol.prototype.playerReady(){
  * updatePaddle
  * 
  * Sends a paddle update message to the server.
+ * 
+ * @param float newPos New paddle position
  */
 PongNetwork.Protocol.prototype.updatePaddle(newPos){
 	var msg = {

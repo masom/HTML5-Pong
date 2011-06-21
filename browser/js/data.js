@@ -5,8 +5,10 @@
  */
 function PongData(){
 	this.Players = {
-		me: '',
-		other: ''
+		one: '',
+		two: '',
+		Me: '',
+		Other: ''
 	};
 }
 
@@ -18,10 +20,18 @@ function PongData(){
  */
 PongData.prototype.setPlayers(me){
 	if(me == 'one'){
-		this.Players.me = 'one';
-		this.Players.other = 'two';
+		this.Players.Me  = 'one';
+		this.Players.Other = 'two';
 	}else{
-		this.Players.me = 'two';
-		this.Players.other = 'one';
+		this.Players.Me = 'two';
+		this.Players.Other = 'one';
 	}
-}
+};
+
+PongData.prototype.registerPlayer(player, name){
+	this.Players[player] = name;
+};
+
+PongData.prototype.unregisterPlayer(player){
+	this.Players[player] = '';
+};
