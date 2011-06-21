@@ -16,6 +16,13 @@ function PongNetwork(){
 
 	this.socketState = this.SOCKET_NEW;
 
+	this.MESSAGE_WELCOME = 100;
+	this.MESSAGE_GAME_START = 110;
+	this.MESSAGE_PLAYER_READY = 160;
+	this.MESSAGE_PLAYER_JOINED = 200;
+	this.MESSAGE_PLAYER_LEFT = 600;
+	this.MESSAGE_PADDLE_MOVE = 900;
+
 	//TODO: Wrap this up for other browsers.
 	this.JSON = JSON;
 }
@@ -92,29 +99,27 @@ PongNetwork.prototype.onSocketMessage = function(message){
 	var msg = this.JSON.parse(message.data);
 	switch (msg.code){
 	default:
-		//TODO: This is currently only for debug.
-		alert(msg.code);
+		PongUI.alert("PongNetwork", "Unknown message code: " + msg.code);
 		break;
-	case 100:
-		//Current Player joined.
+	case this.MESSAGE_WELCOME:
 		break;
-	case 110: // Game on
+	case this.MESSAGE_GAME_START:
 		PongUI.hideLobby();
 		PongUI.enablePaddles();
 		break;
-	case 160: // A player is ready.
+	case this.MESSAGE_PLAYER_READY:
 		PongUI.setPlayerReady(msg.data.id, true);
 		break;
-	case 200: // A player joined.
+	case this.MESSAGE_PLAYER_JOINED:
 		PongData.registerPlayer(msg.data.id, d.data.name);
 		PongUI.showLobby();
 		break;
-	case 600: // Other player left
+	case this.MESSAGE_PLAYER_LEFT:
 		PongUI.unregisterPlayer(msg.data.id);
 		PongUI.stop();
 		PongUI.showLobby();
 		break;
-	case 900: // Paddle move.
+	case this.MESSAGE_PADDLE_MOVE:
 		PongUI.updatePaddle(msg.data.player.id, msg.data.pos);
 		break;
 	}
@@ -131,7 +136,7 @@ PongNetwork.prototype.onSocketClose = function(evt){
 		case this.SOCKET_OPENED:
 			break;
 		case this.SOCKET_CLOSED:
-			PongUI.alert("Connection lost");
+			PongUI.alert("Connection Lost", "The connection to the game server was lost.");
 			break;
 		default:
 			PongUI.alert("Connection Error", "A connection to the game server could not be made.");
