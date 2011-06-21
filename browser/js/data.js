@@ -2,10 +2,6 @@
  * PongData
  *
  * @license GPL-2.0 License (http://opensource.org/licenses/GPL-2.0)
- * @author Martin Samson
- * @author Calvin Walton
- * @author Shawn Simister
- * @author mdu
  */
 function PongData(){
 	this.Players = {

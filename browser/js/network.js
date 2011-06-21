@@ -4,18 +4,46 @@
  * Network interface class
  * 
  * @license GPL-2.0 License (http://opensource.org/licenses/GPL-2.0)
- * @author Martin Samson
- * @author Calvin Walton
- * @author Shawn Simister
- * @author mdu
  */
 
 function PongNetwork(){
 	this.socket = null;
 
+	this.SOCKET_NEW = 1;
+	this.SOCKET_OPENING = 2;
+	this.SOCKET_OPENED = 3;
+	this.SOCKET_CLOSED = 4;
+
+	this.socketState = this.SOCKET_NEW;
+
 	//TODO: Wrap this up for other browsers.
 	this.JSON = JSON;
 }
+
+/**
+ * toArray
+ * 
+ * http://javascriptweblog.wordpress.com/2010/04/05/curry-cooking-up-tastier-functions/
+ */
+function toArray(enum) {
+    return Array.prototype.slice.call(enum);
+}
+
+/**
+ * bind
+ * @see http://javascriptweblog.wordpress.com/2010/04/05/curry-cooking-up-tastier-functions/
+ * @returns function
+ */
+PongNetwork.prototype.bind = function() {
+    if (arguments.length<1) {
+        return this; //nothing to curry with - return function
+    }
+    var __method = this;
+    var args = toArray(arguments);
+    return function() {
+        return __method.apply(this, args.concat(toArray(arguments)));
+    };
+};
 
 PongNetwork.Protocol = function(){};
 
@@ -24,11 +52,13 @@ PongNetwork.Protocol = function(){};
  */
 PongNetwork.prototype.connect = function(serverName){
 	//TODO: Verify WebSocket is accessible.
+	this.socketState = this.SOCKET_OPENING;
+
 	this.socket = new WebSocket(serverName);
-	this.socket.onopen = this.onSocketOpen;
-	this.socket.onmessage = this.onSocketMessage;
-	this.socket.onerror = this.onSocketError;
-	this.socket.onclose = this.onSocketClose;
+	this.socket.onopen = this.onSocketOpen.bind(this);
+	this.socket.onmessage = this.onSocketMessage.bind(this);
+	this.socket.onerror = this.onSocketError.bind(this);
+	this.socket.onclose = this.onSocketClose.bind(this);
 };
 
 /**
@@ -48,6 +78,7 @@ PongNetwork.prototype.onSocketError = function(error){
  * Triggered when the WebSocket connection is open.
  */
 PongNetwork.prototype.onSocketOpen = function(){
+	this.socketState = PongNetwork.SOCKET_OPENED;
 	PongUI.hideConnect();
 };
 
@@ -96,7 +127,16 @@ PongNetwork.prototype.onSocketMessage = function(message){
  */
 PongNetwork.prototype.onSocketClose = function(evt){
 	//TODO: Better handling.
-	PongUI.alert("Connection Lost", "The connection to the server was lost.");
+	switch(this.socketState){
+		case this.SOCKET_OPENED:
+			break;
+		case this.SOCKET_CLOSED:
+			PongUI.alert("Connection lost");
+			break;
+		default:
+			PongUI.alert("Connection Error", "A connection to the game server could not be made.");
+			break;
+	}
 };
 
 /**
