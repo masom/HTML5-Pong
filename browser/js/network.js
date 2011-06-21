@@ -12,14 +12,14 @@ function PongNetwork(){
 
 	//TODO: Wrap this up for other browsers.
 	this.JSON = JSON;
-
-	this.Protocol = function(){};
 }
+
+PongNetwork.Protocol = function(){};
 
 /**
  * Connect
  */
-PongNetwork.prototype.connect(serverName){
+PongNetwork.prototype.connect = function(serverName){
 	//TODO: Verify WebSocket is accessible.
 	this.socket = new WebSocket(serverName);
 	this.socket.onopen = this.onSocketOpen;
@@ -34,7 +34,7 @@ PongNetwork.prototype.connect(serverName){
  * Triggered when there is a WebSocket error.
  * @param object error
  */
-PongNetwork.prototype.onSocketError(error){
+PongNetwork.prototype.onSocketError = function(error){
 	//TODO: Better handling of the error message.
 	alert(error);
 };
@@ -44,7 +44,7 @@ PongNetwork.prototype.onSocketError(error){
  * 
  * Triggered when the WebSocket connection is open.
  */
-PongNetwork.prototype.onSocketOpen(){
+PongNetwork.prototype.onSocketOpen = function(){
 	PongUI.hideConnect();
 };
 
@@ -54,7 +54,7 @@ PongNetwork.prototype.onSocketOpen(){
  * Triggered when the WebSocket receives a message.
  * @param string message
  */
-PongNetwork.prototype.onSocketMessage(message){
+PongNetwork.prototype.onSocketMessage = function(message){
 	var msg = this.JSON.parse(message.data);
 	switch (msg.code){
 	default:
@@ -84,16 +84,16 @@ PongNetwork.prototype.onSocketMessage(message){
 		PongUI.updatePaddle(msg.data.player.id, msg.data.pos);
 		break;
 	}
-}
+};
 
 /**
  * onSocketClose
  * 
  * Triggered when the WebSocket has closed.
  */
-PongNetwork.prototype.onSocketClose(evt){
+PongNetwork.prototype.onSocketClose = function(evt){
 	//TODO: Better handling.
-	alert(evt);
+	PongUI.alert("Connection Lost", "The connection to the server was lost.");
 };
 
 /**
@@ -101,7 +101,7 @@ PongNetwork.prototype.onSocketClose(evt){
  * 
  * Sends a player ready message to the server.
  */
-PongNetwork.Protocol.prototype.ready(){
+PongNetwork.Protocol.prototype.ready = function(){
 	var msg = {
 			code: 155,
 			data: {},
@@ -118,7 +118,7 @@ PongNetwork.Protocol.prototype.ready(){
  * 
  * @param float newPos New paddle position
  */
-PongNetwork.Protocol.prototype.updatePaddle(newPos){
+PongNetwork.Protocol.prototype.updatePaddle = function(newPos){
 	var msg = {
 		code: 150,
 		data: {

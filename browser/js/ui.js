@@ -12,13 +12,15 @@ function PongUI(){
 	this.Buttons = {};
 	this.Lobby = null;
 	this.Labels = {};
-	this.Paddles = {'one': null, 'two': null};
+	this.Paddles = {one: null, two: null};
 
 	this.Canvas = null;
 	this.Context = null;
 
 	this.Board = null;
 	this.Ball = null;
+
+	this.MessageBox = {window: null, title: null, message: null};
 }
 
 /**
@@ -26,7 +28,7 @@ function PongUI(){
  * 
  * Initialize UI bindings.
  */
-PongUI.prototype.init(){
+PongUI.prototype.init = function(){
 	this.ScoreBoards['one'] = document.getElementById('scoreboards_player_one');
 	this.ScoreBoards['two'] = document.getElementById('scoreboards_player_two');
 	this.PlayerNames['one'] = document.getElementById('players_name_one');
@@ -36,6 +38,12 @@ PongUI.prototype.init(){
 	this.Buttons['connect'] = document.getElementById('buttons_connect');
 	this.Lobby = document.getElementById('lobby');
 	this.Labels['lobby_name'] = document.getElementById('labels_lobby_name');
+
+	this.MessageBox = {
+		window: document.getElementById("message_box"),
+		title: document.getElementById("message_box_title"),
+		message: document.getElementById("message_box_message")
+	};
 
 	this.Canvas = document.getElementById("playarea");
 	this.Context = this.Canvas.getContext("2d");
@@ -60,14 +68,19 @@ PongUI.prototype.init(){
 		PongUI.Ball.dy = -PongUI.Ball.dy;
 	});
 
-	setInterval(onTimerTick, 16);
+	setInterval(PongUI.onTimerTick, 16);
 };
 
-PongUI.prototype.onTimerTick(){
+PongUI.prototype.onTimerTick = function(){
 	PongUI.Board.update();
 	PongUI.Board.draw();
 };
 
+PongUI.prototype.alert = function(title, message){
+	this.MessageBox['title'] = title;
+	this.MessageBox['message'] = message;
+	this.MessageBox['window'].style.display = 'block';
+};
 /**
  * setPlayerScore
  * 
@@ -76,7 +89,7 @@ PongUI.prototype.onTimerTick(){
  * @param string player Player id
  * @param string score Score value
  */
-PongUI.prototype.setPlayerScore(player, score){
+PongUI.prototype.setPlayerScore = function(player, score){
 	this.ScoreBoards[player].innerText = score;
 };
 
@@ -88,7 +101,7 @@ PongUI.prototype.setPlayerScore(player, score){
  * @param string player Player id
  * @param string name Player name
  */
-PongUI.prototype.setPlayerName(player, name){
+PongUI.prototype.setPlayerName = function(player, name){
 	this.PlayerNames[player].innerText = name;
 };
 
@@ -99,7 +112,7 @@ PongUI.prototype.setPlayerName(player, name){
  * @param string player Player id
  * @param boolean ready Ready state
  */
-PongUI.prototype.setPlayerReady(player, ready){
+PongUI.prototype.setPlayerReady = function(player, ready){
 	var state = '';
 
 	if (ready){
@@ -118,7 +131,7 @@ PongUI.prototype.setPlayerReady(player, ready){
  * 
  * @param string button Button id to be shown.
  */
-PongUI.prototype.showButton(button){
+PongUI.prototype.showButton = function(button){
 	this.Buttons[button].style.display = 'block';
 };
 
@@ -129,7 +142,7 @@ PongUI.prototype.showButton(button){
  * 
  * @param string button Button id to be hidden.
  */
-PongUI.prototype.hideButton(button){
+PongUI.prototype.hideButton = function(button){
 	this.Buttons[button].style.display = 'none';
 };
 
@@ -138,7 +151,7 @@ PongUI.prototype.hideButton(button){
  * 
  * Shows the lobby.
  */
-PongUI.prototype.showLobby(){
+PongUI.prototype.showLobby = function(){
 	this.Labels['lobby_name'].innerText = "You are " + this.PlayerNames[PongData.Players.me];
 	this.Lobby.style.display = 'block';
 };
@@ -148,7 +161,7 @@ PongUI.prototype.showLobby(){
  * 
  * Hides the lobby.
  */
-PongUI.prototype.hideLobby(){
+PongUI.prototype.hideLobby = function(){
 	this.Lobby.style.display = 'none';
 };
 
@@ -157,7 +170,7 @@ PongUI.prototype.hideLobby(){
  * 
  * Initialize paddles and binds the mouse move event to onPaddleMove
  */
-PongUI.prototype.enablePaddles(){
+PongUI.prototype.enablePaddles = function(){
 	switch(PongData.Players.me){
 	default:
 		//TODO: Better handling of this exception
@@ -172,7 +185,7 @@ PongUI.prototype.enablePaddles(){
 	document.addEventListener("mousemove", this.onPaddleMove);
 };
 
-PongUI.prototype.disablePaddles(){
+PongUI.prototype.disablePaddles = function(){
 	//TODO: Double check this. probably wrong
 	document.removeEventListener("mousemove");
 };
@@ -182,7 +195,7 @@ PongUI.prototype.disablePaddles(){
  * Moves a paddle on the board. Triggered after a mousemove event.
  * @param event evt Mouse move event.
  */
-PongUI.prototype.onPaddleMove(evt){
+PongUI.prototype.onPaddleMove = function(evt){
 	var paddle = this.Paddles[PongData.Players.Me];
 
 	paddle.setTarget(evt.x, evt.y - PongUI.Canvas.offsetTop);
@@ -197,7 +210,7 @@ PongUI.prototype.onPaddleMove(evt){
  * @param string player Player id
  * @param float pos Paddle position
  */
-PongUI.prototype.updatePaddle(player, pos){
+PongUI.prototype.updatePaddle = function(player, pos){
 	var paddle = null;
 	if(player == this.Players.me){
 		paddle = this.Paddles.mine;
@@ -207,7 +220,7 @@ PongUI.prototype.updatePaddle(player, pos){
 	paddle.setTarget(0, pos * this.Canvas.clientHeight);
 };
 
-PongUI.prototype.stop(){
+PongUI.prototype.stop = function(){
 	this.disablePaddles();
 	//TODO: Stop and reset the game.
 };
@@ -294,11 +307,11 @@ function PongPaddle(x, y, width, height, sx, sy) {
 	this.dy = 0;
 }
 
-PongGameBoard.prototype.setBoard = function(board) {
+PongPaddle.prototype.setBoard = function(board) {
 	this.board = board;
 };
 
-PongGameBoard.prototype.setTarget = function(x, y) {
+PongPaddle.prototype.setTarget = function(x, y) {
 	this.target_x = x;
 	this.target_y = y;
 	var rx = this.board.relativeX(this.x);
@@ -317,13 +330,13 @@ PongGameBoard.prototype.setTarget = function(x, y) {
 	}
 };
 
-PongGameBoard.prototype.update = function() {
+PongPaddle.prototype.update = function() {
 	this.x += this.dx;
 	this.y += this.dy;
 	this.collisionDetection();
 };
 
-PongGameBoard.prototype.collisionDetection = function() {
+PongPaddle.prototype.collisionDetection = function() {
 	var w2 = this.width / 2.0;
 	var h2 = this.height / 2.0;
 	if (this.x < w2) {
@@ -350,7 +363,7 @@ PongGameBoard.prototype.collisionDetection = function() {
 	}
 };
 
-PongGameBoard.prototype.intersects = function(object) {
+PongPaddle.prototype.intersects = function(object) {
 	var this_w2 = this.width / 2.0;
 	var this_h2 = this.height / 2.0;
 	var object_w2 = object.width / 2.0;
@@ -399,7 +412,7 @@ PongGameBoard.prototype.intersects = function(object) {
 	return null;
 };
 
-PongGameBoard.prototype.draw = function(context) {
+PongPaddle.prototype.draw = function(context) {
 	context.fillStyle = '#fff';
 	var w2 = this.width / 2.0;
 	var h2 = this.height / 2.0;

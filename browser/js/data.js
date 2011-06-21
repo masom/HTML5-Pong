@@ -18,7 +18,7 @@ function PongData(){
  * Sets the players based on who is the current player
  * @param string me Identify of the current player
  */
-PongData.prototype.setPlayers(me){
+PongData.prototype.setPlayers = function(me){
 	if(me == 'one'){
 		this.Players.Me  = 'one';
 		this.Players.Other = 'two';
@@ -28,10 +28,10 @@ PongData.prototype.setPlayers(me){
 	}
 };
 
-PongData.prototype.registerPlayer(player, name){
+PongData.prototype.registerPlayer = function(player, name){
 	this.Players[player] = name;
 };
 
-PongData.prototype.unregisterPlayer(player){
+PongData.prototype.unregisterPlayer = function(player){
 	this.Players[player] = '';
 };

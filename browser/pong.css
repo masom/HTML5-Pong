@@ -99,3 +99,11 @@ button {
   top: 0.1em;
   left: 0.1em;
 }
+div#message_box{
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 200px;
+	height: 300px;
+}
