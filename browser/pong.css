@@ -1,4 +1,8 @@
 @import "http://fonts.googleapis.com/css?family=Geo:regular";
+*{
+	margin: 0;
+	padding:0;
+}
 body {
   font-family: Geo, serif;
   font-size: 12pt;
@@ -7,7 +11,7 @@ body {
   background: black;
   color: white;
 }
-#player1score, #player2score {
+#scoreboards_player_one, #scoreboards_player_two {
   border: medium solid;
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -18,12 +22,12 @@ body {
   border-radius: 0.5em;
   text-align: center;
 }
-#player1score {
+#scoreboards_player_one {
   position: absolute;
   top: 0.5em;
   left: 2em;
 }
-#player2score {
+#scoreboards_player_two {
   position: absolute;
   top: 0.4em;
   right: 2em;
@@ -44,33 +48,35 @@ h1 {
   width: 100%;
   height: 60%;
 }
-#player1name {
+#players_name_one {
   position: absolute;
   top: 2.5em;
   left: 2em;
   font-size: 2em;
   height: 2em;
 }
-#player2name {
+#players_name_two {
   position: absolute;
   top: 2.5em;
   right: 2em;
   font-size: 2em;
   height: 2em;
 }
-.dialogue {
-  position: absolute;
-  top: 11em;
-  left: 15%;
-  width: 70%;
-  min-width: 40em;
-  background: rgba(0,0,0,0.8);
-  border: medium solid;
-  padding: 2em;
-  border-radius: 1em;
-  box-sizing: border-box;
+div#message_box, .dialogue{
+	position: absolute;
+	border: medium solid;
+	padding: 2em;
+	border-radius: 1em;
+	box-sizing: border-box;
 }
-.dialogue h2, .dialogue p {
+.dialogue{
+	background: rgba(0,0,0,0.8);
+	top: 35%;
+	left: 15%;
+	width: 70%;
+	min-width: 40em;
+}
+.dialogue h2, .dialogue p, div#message_box {
   text-align: center;
   margin: 0;
 }
@@ -84,7 +90,7 @@ input[type=text] {
   padding: 0.5em;
   font: inherit;
 }
-input[type=submit] {
+button{
   border: medium solid;
   border-radius: 0.5em;
   font: inherit;
@@ -94,8 +100,28 @@ input[type=submit] {
   font-weight: bold;
   padding: 0 1em;
 }
-input[type=submit]:active {
+button {
   position: relative;
   top: 0.1em;
   left: 0.1em;
+}
+div#message_box{
+	background: rgba(0,0,0,0.9);
+	display: none;
+	top: 0em;
+	left: 0em;
+	width: 40%;
+	color: white;
+}
+h2#message_box_title{
+	margin: 0;
+	padding:0;
+}
+p#message_box_message{
+	margin-top: 1em;
+	margin-bottom: 1em;
+	height: 35%;
+}
+div#message_box button{
+	margin-top: 1em;
 }

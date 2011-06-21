@@ -53,7 +53,7 @@ Parser.prototype.write = function(data){
 Parser.prototype.destroy = function(){
   delete this.order;
   delete this.frameData;
-}
+};
 
 
 
