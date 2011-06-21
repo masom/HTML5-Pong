@@ -1,9 +1,26 @@
 /**
  * PongUI
  * 
+ * Copyright (C) 2011  Martin Samson
+ * Copyright (C) 2011  Calvin Walton
+ * Copyright (C) 2011  Shawn Simister
+ * Copyright (C) 2011  mdu
+ * 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @license GPL-2.0 License (http://opensource.org/licenses/GPL-2.0)
  * @author Martin Samson
  * @author Calvin Walton
  * @author Shawn Simister
+ * @author mdu
  */
 function PongUI(){
 	this.ScoreBoards = {};
