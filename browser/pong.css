@@ -111,14 +111,17 @@ div#message_box{
 	top: 0em;
 	left: 0em;
 	width: 40%;
-	height: 25%;
 	color: white;
 }
-h1#message_box_title{
+h2#message_box_title{
 	margin: 0;
 	padding:0;
 }
 p#message_box_message{
 	margin-top: 1em;
 	margin-bottom: 1em;
+	height: 35%;
+}
+div#message_box button{
+	margin-top: 1em;
 }
